@@ -1,0 +1,11 @@
+Operação: comprarProduto(ID: idProduto, quantidade: inteiro)
+Referências cruzadas: Caso de uso Comprar Produto
+Pré-condições: Existe um Produto ativo "produtoAnunciado" associado à Anunciante "anuncianteProduto"
+Pós-Condições:
+ 	●Uma instância "iv" de Compra foi criada;
+	●"iv" foi associada à "produtoAnuncidado";
+	●"quantidade" foi atribuída a "iv.quantidade";
+	●"opcao" foi atribuída a "iv.opcao";
+	●"endereco" foi atribuída a "iv.endereco";
+	●"anunciante" foi atribuída a "iv.anunciante";
+	●"iv" foi associada a um Produto através do "ID".
