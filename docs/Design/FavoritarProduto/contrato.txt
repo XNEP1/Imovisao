@@ -1,0 +1,6 @@
+Operação: favoritarProduto(ID:produtoID)
+Referências cruzadas: Caso de uso favoritarProduto
+Pré-condições:Cliente e produto devem estar cadastrados no sistema.
+Pós-Condições:
+    A instância do produto selecionado é adicionada a lista de produtos favoritos do cliente.
+    O cliente pode acessar o produto pela aba "Favoritos".
