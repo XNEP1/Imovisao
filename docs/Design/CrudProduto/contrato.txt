@@ -1,0 +1,8 @@
+Operação: criarProduto()
+Referências cruzadas: Caso de uso CRUD Produto
+Pré-condições: Existe instância de ListaProduto
+Pós-Condições:
+	- O produto foi criado
+	- O produto foi associado ao Anunciante
+	- O produto foi associado à ListaProdut
+o
