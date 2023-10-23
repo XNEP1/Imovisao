@@ -1,0 +1,33 @@
+–Operação: verMinhasCompras()
+–Referências cruzadas: Caso de uso feedback
+–Pré-condições: 
+	O Cliente deve estar cadastrados no sistema.
+–Pós-Condições:
+	Uma lista dos produtos comprados pelo Cliente foi exibida.
+	
+
+–Operação: selecionarProduto(idProduto: inteiro)
+–Referências cruzadas: Caso de uso feedback
+–Pré-condições: 
+	O Cliente deve estar cadastrados no sistema.
+	O Cliente deve haver produto na lista de produtos.
+–Pós-Condições:
+	O produto com o ID especificado foi selecionado.
+	
+
+–Operação: selecionarOpçãoFeedback(produto: Produto)
+–Referências cruzadas: Caso de uso feedback
+–Pré-condições: 
+	O Cliente deve estar cadastrados no sistema.
+	O Cliente deve ter selecionado algum produto da lista.
+–Pós-Condições:
+	Uma caixa de texto para o Cliente escrever deve ter sido exibida.
+
+
+–Operação: enviarFeedback(produto: Produto, texto: string)
+–Referências cruzadas: Caso de uso feedback
+–Pré-condições: 
+	O Cliente e o Anunciante devem estar cadastrados no sistema.
+	O Cliente deve ter escrito um texto de feedback.
+–Pós-Condições:
+	O feedback foi enviado ao Anunciante.
