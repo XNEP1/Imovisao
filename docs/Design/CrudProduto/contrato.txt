@@ -1,0 +1,28 @@
+Operação: criarProduto(nome, codigo, descricao, modelo)
+Referências cruzadas: Caso de uso CRUD Produto
+Pré-condições: Existe instância 'lp' de ListaProduto
+Pós-Condições:
+    - Nova instância 'prod' de Produto foi criada com os dados passados
+	- A instância 'prod' foi adicionada a 'lp'
+    - O produto foi cadastrado
+
+Operação: editarProduto(id, dados: ArrayList)
+Referências cruzadas: Caso de uso CRUD Produto
+Pré-condições: Existe instância 'lp' de ListaProduto associada ao produto ja cadastrado
+Pós-Condições:
+    - Cada dado de 'dados' foi atualizado no produto
+    - O produto foi editado
+    - O produto foi atualizado na ListaProduto
+
+Operação: excluirProduto(id)
+Referências cruzadas: Caso de uso CRUD Produto
+Pré-condições: Existe instância 'lp' de ListaProduto associada ao produto ja cadastrado
+Pós-Condições:
+    - O produto foi excluido
+    - O produto foi removido da ListaProduto
+
+Operação: visualizarProduto(id)
+Referências cruzadas: Caso de uso CRUD Produto
+Pré-condições: Existe instância 'lp' de ListaProduto associada ao produto ja cadastrado
+Pós-Condições:
+    - O produto foi exibido ao cliente

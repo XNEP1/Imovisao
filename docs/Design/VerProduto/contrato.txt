@@ -1,0 +1,5 @@
+Operação: verProduto(ID: idProduto)
+Referências cruzadas: Caso de uso Ver Produto
+Pré-condições: Existe instância de ListaProduto e Camera
+Pós-Condições:
+	- O usuário viu o produto por visualização 3D com AR

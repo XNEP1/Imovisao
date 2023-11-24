@@ -1,0 +1,10 @@
+- Operação: reportarAnuncio(idProduto: inteiro, motivo: Motivo, outro: string, comentario: string)
+- Referências cruzadas: Caso de uso reportar um anúncio de um produto
+- Pré-condições: O Cliente deve ter cadastro na aplicação; o Cliente deve acessar algum anúncio de produto.
+- Pós-Condições:
+	• Uma instância “den” de Denuncia foi criada;
+	• “den” foi associada ao Produto “prod”;
+	•  O produto “prod” e o Anunciante “anunc” desse produto foram associados a “den”;
+	• O Motivo “motivo” da Denúncia foi definido como atributo de “den”;
+	• “outro” foi definido como atribudo de “den”, caso o motivo seja “Outro”, com “outro” então sendo obrigatóriamente não-nulo;
+	• “comentário” foi definido como atribudo de “den”, caso seja não-nulo;
