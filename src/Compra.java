@@ -1,11 +1,12 @@
+import java.util.List;
 public class Compra {
 
 	private String status;
 
-	private ListaCompras listaCompras;
+	private long id;
 
-	private ProdutoComprado produtoComprado;
+	private Cliente cliente;
 
-	private Carrinho carrinho;
+	private List<ItemCompra> itemCompra;
 
 }

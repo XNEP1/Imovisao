@@ -1,7 +1,9 @@
+import java.util.List;
+
 public class Cliente extends Usuario {
 
 	private Carrinho carrinho;
 
-	private ListaCompras listaCompras;
+	private List<Produto> favoritos;
 
 }

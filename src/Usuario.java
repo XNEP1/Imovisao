@@ -1,6 +1,6 @@
 public class Usuario {
 
-	private String id;
+	private long id;
 
 	private String nome;
 
@@ -13,9 +13,5 @@ public class Usuario {
 	private String documento;
 
 	private Endereco endereco;
-
-	private ListaUsuarios listaUsuarios;
-
-	private ListaCompras listaCompras;
 
 }

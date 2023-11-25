@@ -1,17 +1,7 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Carrinho {
 
-	private double valorTotal;
-
-	private Cliente cliente;
-
-	private Produto produto;
-
-	private ListaProdutos listaProdutos;
-
-	private ArrayList<ProdutoComprado> produtoComprado;
-
-	private Compra compra;
+	private List<ItemCompra> itemCompra;
 
 }

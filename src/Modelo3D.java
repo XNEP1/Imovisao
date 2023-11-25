@@ -6,8 +6,6 @@ public class Modelo3D {
 
 	private double tamanhoY;
 
-	private double taamanhoZ;
-
-	private Produto produto;
+	private double tamanhoZ;
 
 }

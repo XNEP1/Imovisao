@@ -1,8 +1,10 @@
+import java.util.List;
+
 public class Produto {
 
 	private String nome;
 
-	private int id;
+	private long id;
 
 	private double preco;
 
@@ -10,16 +12,12 @@ public class Produto {
 
 	private int avaliacao;
 
-	private Carrinho carrinho;
-
-	private ListaProdutos listaProdutos;
-
 	private Categoria categoria;
-
-	private Denuncia denuncia;
 
 	private Modelo3D modelo3D;
 
-	private ProdutoComprado produtoComprado;
+	private Anunciante anunciante;
+
+	private List<Denuncia> denuncia;
 
 }
