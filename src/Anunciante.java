@@ -1,7 +1,7 @@
 public class Anunciante extends Usuario {
 
-	private ListaProduto produtos;
-
 	private int avalicao;
+
+	private ListaProdutos listaProdutos;
 
 }

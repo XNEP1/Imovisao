@@ -14,4 +14,6 @@ public class Endereco {
 
 	private String estado;
 
+	private Usuario usuario;
+
 }

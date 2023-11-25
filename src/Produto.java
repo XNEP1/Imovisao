@@ -10,10 +10,16 @@ public class Produto {
 
 	private int avaliacao;
 
-	private Modelo3D modelo;
+	private Carrinho carrinho;
+
+	private ListaProdutos listaProdutos;
 
 	private Categoria categoria;
 
 	private Denuncia denuncia;
+
+	private Modelo3D modelo3D;
+
+	private ProdutoComprado produtoComprado;
 
 }

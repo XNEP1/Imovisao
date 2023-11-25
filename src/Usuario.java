@@ -14,4 +14,8 @@ public class Usuario {
 
 	private Endereco endereco;
 
+	private ListaUsuarios listaUsuarios;
+
+	private ListaCompras listaCompras;
+
 }
