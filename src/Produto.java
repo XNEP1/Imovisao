@@ -70,10 +70,8 @@ public class Produto {
 		return this.denuncias;
 	}
 
-
-
-    public void registrarDenuncia (Denuncia novaDenuncia) {
-        this.denuncia.add(novaDenuncia);
+    public void registrarDenuncia (Denuncia denuncia) {
+        this.denuncias.add(denuncia);
     }
 
 }

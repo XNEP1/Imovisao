@@ -3,11 +3,11 @@ public class Denuncia {
 	private String mensagem;
     private int motivo;
     private Produto prod;
-    private String anunc;
+    private Anunciante anunc;
     private String comentario = null;
     private String outro = null;
 
-    public Denuncia (Produto prod, String anunc, int motivo) {
+    public Denuncia (Produto prod, Anunciante anunc, int motivo) {
         this.prod = prod;
         this.anunc = anunc;
         this.motivo = motivo;
@@ -17,7 +17,7 @@ public class Denuncia {
         return this.prod;
     }
 
-    public int getAnunciante () {
+    public Anunciante getAnunciante () {
         return this.anunc;
     }
 

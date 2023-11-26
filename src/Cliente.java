@@ -14,15 +14,11 @@ public class Cliente extends Usuario {
 		this.favoritos = new ArrayList<Produto>();
 	}
 
-    public void ReportarAnuncio (int idProduto, int motivo, String outro, String comentario) {
-        ProdutoDAO lp;
-        Produto prod;
+    public void ReportarAnuncio (Produto prod, int motivo, String outro, String comentario) {
         Anunciante anunc;
         Denuncia den;
         
         try {
-            lp = Sistema.getProdutoDAO();
-            prod = lp.buscarProduto(idProduto);
             anunc = prod.getAnunciante();
             
             den = new Denuncia(prod, anunc, motivo);
