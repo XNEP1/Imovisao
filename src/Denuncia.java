@@ -41,4 +41,12 @@ public class Denuncia {
         this.outro = outro;
     }
 
+	public Denuncia(String mensagem) {
+		this.mensagem = mensagem;
+	}
+
+	public String getMensagem() {
+		return this.mensagem;
+	}
+
 }

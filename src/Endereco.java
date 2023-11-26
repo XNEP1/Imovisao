@@ -14,4 +14,14 @@ public class Endereco {
 
 	private String estado;
 
+	public Endereco(String logradouro, int numero) {
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.complemento = "";
+		this.bairro = "";
+		this.cep = "";
+		this.cidade = "";
+		this.estado = "";
+	}
+
 }
