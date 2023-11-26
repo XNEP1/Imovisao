@@ -14,7 +14,7 @@ public class Cliente extends Usuario {
 		this.favoritos = new ArrayList<Produto>();
 	}
 
-    public void ReportarAnuncio (Produto prod, int motivo, String comentario, String outro) {
+    public void reportarAnuncio (Produto prod, int motivo, String mensagem, String outro) {
         Anunciante anunc;
         Denuncia den;
         
@@ -22,8 +22,8 @@ public class Cliente extends Usuario {
         
         den = new Denuncia(prod, anunc, motivo);
         
-        if (comentario != null) {
-            den.setComentario(comentario);
+        if (mensagem != null) {
+            den.setMensagem(mensagem);
         }
         
         if (outro != null) {

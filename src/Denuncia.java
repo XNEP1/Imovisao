@@ -1,10 +1,9 @@
 public class Denuncia {
 
-	private String mensagem;
     private int motivo;
+	private String mensagem;
     private Produto prod;
     private Anunciante anunc;
-    private String comentario = null;
     private String outro = null;
 
     public Denuncia (Produto prod, Anunciante anunc, int motivo) {
@@ -12,6 +11,10 @@ public class Denuncia {
         this.anunc = anunc;
         this.motivo = motivo;
     }
+
+	public Denuncia(String mensagem) {
+		this.mensagem = mensagem;
+	}
 
     public Produto getProduto () {
         return this.prod;
@@ -25,28 +28,20 @@ public class Denuncia {
         return this.motivo;
     }
 
-    public String getComentario () {
-        return this.comentario;
+    public String getMensagem () {
+        return this.mensagem;
     }
 
     public String getOutro () {
         return this.outro;
     }
 
-    public void setComentario (String comentario) {
-        this.comentario = comentario;
+    public void setMensagem (String mensagem) {
+        this.mensagem = mensagem;
     }
 
     public void setOutro (String outro) {
         this.outro = outro;
     }
-
-	public Denuncia(String mensagem) {
-		this.mensagem = mensagem;
-	}
-
-	public String getMensagem() {
-		return this.mensagem;
-	}
 
 }

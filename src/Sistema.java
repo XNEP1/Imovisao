@@ -48,4 +48,12 @@ public class Sistema {
 		this.camera.verModelo3D(mod);
 	}
 
+	public Produto buscarProduto(long idProduto) {
+		Produto prod = this.produtoDAO.buscaProduto(idProduto);
+		if (prod == null) {
+			return null;
+		}
+		return prod;
+	}
+
 }
