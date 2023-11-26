@@ -14,4 +14,15 @@ public class Cliente extends Usuario {
 		this.favoritos = new ArrayList<Produto>();
 	}
 
+	public Carrinho getCarrinho() {
+		return this.carrinho;
+	}
+
+	public List<Produto> getFavoritos() {
+		return this.favoritos;
+	}
+
+	public void adicionaCarrinho(Produto produto, int quantidade) {
+		this.carrinho.adicionaCarrinho(produto, quantidade);
+	}
 }
