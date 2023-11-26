@@ -29,4 +29,8 @@ public class Usuario {
 		return this.id;
 	}
 
+	public String getNome() {
+		return this.nome;
+	}
+
 }

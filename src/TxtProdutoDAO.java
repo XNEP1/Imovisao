@@ -42,7 +42,7 @@ public class TxtProdutoDAO implements ProdutoDAO {
     public void cadastrarProduto(Produto produto) {
         for (Produto p : produtos) {
             if (p.getId() == produto.getId()) {
-                System.err.println("Erro: Produto com ID " + produto.getId() + " já existe.");
+                System.out.println("Erro: Produto com ID " + produto.getId() + " já existe.");
                 return;
             }
         }

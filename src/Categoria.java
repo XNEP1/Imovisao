@@ -10,4 +10,9 @@ public class Categoria {
 		return this.nome;
 	}
 
+	@Override
+	public String toString() {
+		return this.nome;
+	}
+
 }

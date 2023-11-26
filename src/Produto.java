@@ -19,7 +19,7 @@ public class Produto {
 
 	private Anunciante anunciante;
 
-	private List<Denuncia> denuncia;
+	private List<Denuncia> denuncias;
 
 	public Produto(long id, double preco, String nome, String descricao, int avaliacao, Categoria categoria,
 			Modelo3D modelo3d, Anunciante anunciante) {
@@ -31,7 +31,7 @@ public class Produto {
 		this.categoria = categoria;
 		this.modelo3D = modelo3d;
 		this.anunciante = anunciante;
-		this.denuncia = new ArrayList<Denuncia>();
+		this.denuncias = new ArrayList<Denuncia>();
 	}
 
 	public String getNome() {
@@ -46,8 +46,28 @@ public class Produto {
 		return this.modelo3D;
 	}
 
-    public long getId() {
-        return this.id;
-    }
+	public long getId() {
+		return this.id;
+	}
+
+	public double getPreco() {
+		return this.preco;
+	}
+
+	public Categoria getCategoria() {
+		return this.categoria;
+	}
+
+	public int getAvaliacao() {
+		return this.avaliacao;
+	}
+
+	public Anunciante getAnunciante() {
+		return this.anunciante;
+	}
+
+	public List<Denuncia> getDenuncias() {
+		return this.denuncias;
+	}
 
 }

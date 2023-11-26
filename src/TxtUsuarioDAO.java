@@ -78,7 +78,7 @@ public class TxtUsuarioDAO implements UsuarioDAO {
     public void cadastrarUsuario(Usuario usuario) {
         for (Usuario usuarioCadastrado : usuarios) {
             if (usuarioCadastrado.getId() == usuario.getId()) {
-                System.err.println("Erro: Usuário com ID " + usuario.getId() + " já existe.");
+                System.out.println("Erro: Usuário com ID " + usuario.getId() + " já existe.");
                 return;
             }
         }
