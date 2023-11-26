@@ -15,7 +15,8 @@ public class Carrinho {
 		return this.itemCompra;
 	}
 
-	public void addItemCompra(ItemCompra itemCompra) {
+	public void adicionaCarrinho(Produto produto, int quantidade) {
+		ItemCompra itemCompra = new ItemCompra(quantidade, produto);
 		this.itemCompra.add(itemCompra);
 	}
 
