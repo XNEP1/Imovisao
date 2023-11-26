@@ -20,4 +20,10 @@ public class Produto {
 
 	private List<Denuncia> denuncia;
 
+
+
+    public void registrarDenuncia (Denuncia novaDenuncia) {
+        this.denuncia.add(novaDenuncia);
+    }
+
 }
