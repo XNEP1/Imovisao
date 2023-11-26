@@ -14,4 +14,19 @@ public class Usuario {
 
 	private Endereco endereco;
 
+    public Usuario(long id, String nome, String email, String telefone, String senha, String documento,
+            Endereco endereco) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.senha = senha;
+        this.documento = documento;
+        this.endereco = endereco;
+    }
+
+	public long getId() {
+		return this.id;
+	}
+
 }
