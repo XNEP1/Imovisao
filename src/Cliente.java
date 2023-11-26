@@ -18,23 +18,19 @@ public class Cliente extends Usuario {
         Anunciante anunc;
         Denuncia den;
         
-        try {
-            anunc = prod.getAnunciante();
-            
-            den = new Denuncia(prod, anunc, motivo);
-            
-            if (comentario != null) {
-                den.setComentario(comentario);
-            }
-            
-            if (outro != null) {
-                den.setOutro(outro);
-            }
-            
-            prod.registrarDenuncia(den);
-        } catch (Exception e) {
+        anunc = prod.getAnunciante();
         
+        den = new Denuncia(prod, anunc, motivo);
+        
+        if (comentario != null) {
+            den.setComentario(comentario);
         }
+        
+        if (outro != null) {
+            den.setOutro(outro);
+        }
+        
+        prod.registrarDenuncia(den);
     }
 
 }
