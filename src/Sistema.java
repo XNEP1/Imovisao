@@ -37,14 +37,19 @@ public class Sistema {
 		} else if (!usuario.getSenha().equals(senha)) {
 			System.out.println("Erro: Senha incorreta.");
 			return null;
-		} else {
-			return usuario;
 		}
+		return usuario;
 	}
 
 	public void comprar() {
+		int cont = 0;
 		while (clienteLogado == null) {
 			fazerLogin();
+			cont++;
+			if (cont > 3) {
+				System.out.println("Erro: Você excedeu o número de tentativas de login.");
+				return;
+			}
 		}
 		Compra compra = new Compra(0, clienteLogado, clienteLogado.getCarrinho().getItemCompra());
 	}
