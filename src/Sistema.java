@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Sistema {
 
 	private Camera camera;
@@ -8,15 +10,43 @@ public class Sistema {
 
 	private CompraDAO compraDAO;
 
+	private Cliente clienteLogado;
+
 	public Sistema() {
 		this.camera = new Camera();
 		this.usuarioDAO = new TxtUsuarioDAO();
 		this.produtoDAO = new TxtProdutoDAO(this.usuarioDAO);
-		this.compraDAO = new TxtCompraDAO();
+		this.compraDAO = new TxtCompraDAO(this.usuarioDAO);
 	}
 
 	public void listarProdutos() {
 
+	}
+
+	public Usuario fazerLogin() {
+		Scanner leitor = new Scanner(System.in);
+		System.out.println("Digite seu id:");
+		long id = leitor.nextLong();
+		Usuario usuario = this.usuarioDAO.buscaUsuario(id);
+		System.out.println("Digite sua senha:");
+		String senha = leitor.next();
+		leitor.close();
+		if (usuario == null) {
+			System.out.println("Erro: Usuário com ID " + id + " não existe.");
+			return null;
+		} else if (!usuario.getSenha().equals(senha)) {
+			System.out.println("Erro: Senha incorreta.");
+			return null;
+		} else {
+			return usuario;
+		}
+	}
+
+	public void comprar() {
+		while (clienteLogado == null) {
+			fazerLogin();
+		}
+		Compra compra = new Compra(0, clienteLogado, clienteLogado.getCarrinho().getItemCompra());
 	}
 
 	public void verProduto(long idProduto) {

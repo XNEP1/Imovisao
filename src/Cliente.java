@@ -18,11 +18,19 @@ public class Cliente extends Usuario {
 		return this.carrinho;
 	}
 
+	// busca carrinho cliente pelo id
+	public Carrinho getCarrinhoId(long id) {
+		if (this.getId() == id) {
+			return this.carrinho;
+		}
+		return null;
+	}
+
 	public List<Produto> getFavoritos() {
 		return this.favoritos;
 	}
 
 	public void adicionaCarrinho(Produto produto, int quantidade) {
-		this.carrinho.adicionaCarrinho(produto, quantidade);
+		this.carrinho.adicionaItemCompra(produto, quantidade);
 	}
 }
