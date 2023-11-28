@@ -38,7 +38,7 @@ public class Cliente extends Usuario {
 
     public void enviarFeedback(Produto prod, String texto) {
 
-        if (texto != null)
+        if (texto == null)
             throw new InvalidParameterException("Um feedback não pode ter uma mensagem nula.");
 
         Feedback feedback = new Feedback(prod, texto);

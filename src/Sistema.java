@@ -127,55 +127,104 @@ public class Sistema {
         System.out.println("Produto adicionado ao carrinho.");
     }
 
-    public void inserirProduto(String nome, double preco, String descricao, Categoria categoria, Modelo3D modelo3d,
-            Anunciante anunciante) {
+    public void adicionarProduto() {
         if (isLogadoCliente()) {
             System.out.println("Erro: Apenas anunciantes podem inserir produtos.");
             return;
         }
 
-        Produto prod = new Produto(nome, preco, descricao, categoria, modelo3d, anunciante);
+        // Ler informacoes do produto
+        Entrada entrada = Entrada.getInstance();
+        String nome = entrada.leString("Nome");
+        double preco = entrada.leDouble("Preço");
+        String descricao = entrada.leString("Descrição");
+        String strCategoria = entrada.leString("Categoria");
+        Categoria categoria = new Categoria(strCategoria);
+
+        Modelo3D modelo3d = null;
+        Anunciante anunciante = (Anunciante) this.usuarioLogado;
+
+        Produto prod = new Produto(this.produtoDAO.getIdUnico(), preco, nome, descricao, 0, categoria, modelo3d,
+                anunciante);
         this.produtoDAO.cadastrarProduto(prod);
+
+        // Exibe ID e nome do produto
+        System.out.println("-------------------");
         System.out.println("Produto inserido com sucesso!");
+        System.out.println("ID: " + prod.getId());
+        System.out.println("Nome: " + prod.getNome());
     }
 
-    public void inserirProduto(Produto prod) {
-        if (isLogadoCliente()) {
-            System.out.println("Erro: Apenas anunciantes podem inserir produtos.");
-            return;
-        }
-
-        if (prod == null) {
-            System.out.println("Erro: Produto não pode ser nulo.");
-            return;
-        }
-        this.produtoDAO.cadastrarProduto(prod);
-        System.out.println("Produto inserido com sucesso!");
-    }
-
-    public void editarProduto(long idProduto, Produto newProduto) {
+    public void editarProduto(long idProduto) {
         if (isLogadoCliente()) {
             System.out.println("Erro: Apenas anunciantes podem editar produtos.");
             return;
         }
 
+        // Verifica se o produto existe
         Produto prod = this.produtoDAO.buscaProduto(idProduto);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
             return;
         }
 
-        prod.setNome(newProduto.getNome());
-        prod.setPreco(newProduto.getPreco());
-        prod.setDescricao(newProduto.getDescricao());
-        prod.setCategoria(newProduto.getCategoria());
-        prod.setModelo3D(newProduto.getModelo3D());
-        prod.setAnunciante(newProduto.getAnunciante());
+        // Verifica se o produto pertence ao anunciante logado
+        Anunciante Anunciante = (Anunciante) this.usuarioLogado;
+        if (prod.getAnunciante().getId() != Anunciante.getId()) {
+            System.out.println("Erro: Você não pode editar um produto que não é seu.");
+            return;
+        }
 
+        // Ler informacoes do produto
+        Entrada entrada = Entrada.getInstance();
+
+        System.out.println("Digite as novas informações do produto:");
+        System.out.println("Deixe em branco para manter o valor atual.");
+        System.out.println("Nome atual: " + prod.getNome());
+        String Nome = entrada.leString("Nome");
+        if (Nome.equals("")) {
+            Nome = prod.getNome();
+        }
+
+        System.out.println("Preço atual: " + prod.getPreco());
+        double Preco = entrada.leDouble("Preço");
+        if (Preco == 0) {
+            Preco = prod.getPreco();
+        }
+
+        System.out.println("Descrição atual: " + prod.getDescricao());
+        String Descricao = entrada.leString("Descrição");
+        if (Descricao.equals("")) {
+            Descricao = prod.getDescricao();
+        }
+
+        System.out.println("Categoria atual: " + prod.getCategoria().getNome());
+        String strCategoria = entrada.leString("Categoria");
+        Categoria Categoria = prod.getCategoria();
+        if (!strCategoria.equals("")) {
+            Categoria = new Categoria(strCategoria);
+        }
+
+        Modelo3D Modelo3D = prod.getModelo3D();
+        System.out.println("Deseja alterar o modelo 3D?");
+        if (entrada.leBoolean("Opção")) {
+            System.out.println("Digite o caminho para o novo modelo 3D:");
+            String caminho = entrada.leString("Caminho");
+            // vai ficar querendo mudar
+            System.out.println("Erro: Não implementado.");
+        }
+
+        prod.setNome(Nome);
+        prod.setPreco(Preco);
+        prod.setDescricao(Descricao);
+        prod.setCategoria(Categoria);
+        prod.setModelo3D(Modelo3D);
+
+        System.out.println("-------------------");
         System.out.println("Produto editado com sucesso!");
     }
 
-    public void excluirProduto(long idProduto) {
+    public void removerProduto(long idProduto) {
         if (isLogadoCliente()) {
             System.out.println("Erro: Apenas anunciantes podem excluir produtos.");
             return;
@@ -187,7 +236,16 @@ public class Sistema {
             return;
         }
 
+        // Verifica se o produto pertence ao anunciante logado
+        Anunciante Anunciante = (Anunciante) this.usuarioLogado;
+        if (prod.getAnunciante().getId() != Anunciante.getId()) {
+            System.out.println("Erro: Você não pode excluir um produto que não é seu.");
+            return;
+        }
+
         this.produtoDAO.removerProduto(prod);
+
+        System.out.println("-------------------");
         System.out.println("Produto removido com sucesso!");
     }
 
@@ -215,4 +273,53 @@ public class Sistema {
             this.camera.verModelo3D(mod);
         }
     }
+
+    public void visualizarProdutos() {
+        System.out.println("-------------------");
+        System.out.println("Produtos:");
+        for (Produto produto : this.produtoDAO.listarProdutos()) {
+            System.out.println(produto.getNome() +
+                    " #" + produto.getId() +
+                    " (" + produto.getCategoria() + ")" +
+                    " Anunciante: " + produto.getAnunciante().getNome());
+        }
+    }
+
+    public int visualizarCompras() {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
+            return 0;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+        int i = 0;
+
+        System.out.println("-------------------");
+        System.out.println("Produtos Comprados:");
+        for (ItemCompra produto : cliente.getItensComprados()) {
+            System.out.println("Compra " + i);
+            System.out.println(produto.getProduto().getNome() +
+                    " #" + produto.getProduto().getId() +
+                    " (" + produto.getProduto().getCategoria() + ")" +
+                    " Anunciante: " + produto.getProduto().getAnunciante().getNome());
+            System.out.println("\tQuantidade: " + produto.getQuantidade());
+            System.out.println();
+            i += 1;
+        }
+
+        return i;
+    }
+
+    public void enviarFeedback(int indiceProdutoComprado, String texto) {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
+            return;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+
+        ItemCompra item = cliente.getItensComprados().get(indiceProdutoComprado);
+        cliente.enviarFeedback(item.getProduto(), texto);
+    }
+
 }
