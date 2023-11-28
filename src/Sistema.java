@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.util.List;
 
 public class Sistema {
@@ -214,7 +213,7 @@ public class Sistema {
         System.out.println("Deseja alterar o modelo 3D?");
         if (entrada.leBoolean("Opção")) {
             System.out.println("Digite o caminho para o novo modelo 3D:");
-            String caminho = entrada.leString("Caminho");
+            // String caminho = entrada.leString("Caminho");
             // vai ficar querendo mudar
             System.out.println("Erro: Não implementado.");
         }
@@ -321,9 +320,9 @@ public class Sistema {
                 index++;
                 
             }
-            System.out.printf("  <%d>Páginas:  ",start/num);
-            for(int k=0;k<=prods.size()/num;k++)
-                System.out.printf("%d ",k);
+            System.out.printf("\n  Páginas: %d - ", start / num + 1);
+            for(int k=1; k <= prods.size()/num + 1; k++)
+                System.out.printf("Atual: %d ", k);
             System.out.printf("\n");
 
             System.out.printf("------------Menu------------\n");
@@ -341,6 +340,7 @@ public class Sistema {
                 break;
                 case 2:
                     start=entrada.leInt("Página:");
+                    start--;
                     System.out.println(start+" "+prods.size());
                     if(start>prods.size()/num)
                         start=prods.size()/num;
@@ -351,8 +351,10 @@ public class Sistema {
 
                 break;
                 case 3:
-                    if (!this.isLogadoCliente())
-                        break;
+                    if (!this.isLogadoCliente()) {
+                        System.out.println("Opção inválida.");
+                        return;
+                    }
                     
                     Cliente cliente = (Cliente) this.usuarioLogado;
                     do{
@@ -367,12 +369,10 @@ public class Sistema {
                 case 9:
                     return;
                 default:
-                
-                break;
+                    System.out.println("Opção inválida.");
+                    return;
             }
             index=0;
-
-            
         }
 
     }
