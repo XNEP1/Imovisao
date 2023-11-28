@@ -10,7 +10,7 @@ public class Sistema {
 
     private CompraDAO compraDAO;
 
-	private Cliente clienteLogado;
+	private Usuario usuarioLogado;
 
 	public Sistema() {
 		this.camera = new Camera();
@@ -19,77 +19,128 @@ public class Sistema {
 		this.compraDAO = new TxtCompraDAO(this.usuarioDAO);
 	}
 
+    public Usuario getUsuarioLogado() {
+        return usuarioLogado;
+    }
+
     public void listarProdutos() {
 
     }
 
-	public void fazerLogin() {
+	private void fazerLogin() {
+        if (this.usuarioLogado != null) {
+            System.out.println("Erro: Já existe um usuário logado.");
+            return;
+        }
+
 		Entrada entrada = Entrada.getInstance();
+
 		System.out.println("Digite seu id:");
 		long id = entrada.leLong("ID");
+
 		System.out.println("Digite sua senha:");
 		String senha = entrada.leString("Senha");
-		Cliente clientePotencial = this.usuarioDAO.buscaCliente(id);
-		this.clienteLogado = null;
-		if (clientePotencial == null) {
+
+		Usuario usuarioPotencial = this.usuarioDAO.buscaUsuario(id);
+		if (usuarioPotencial == null) {
 			System.out.println("Erro: Usuário com ID " + id + " não existe.");
 			return;
-		} else if (!clientePotencial.getSenha().equals(senha)) {
+		} else if (!usuarioPotencial.getSenha().equals(senha)) {
 			System.out.println("Erro: Senha incorreta.");
 			return;
 		}
-		this.clienteLogado = clientePotencial;
+		this.usuarioLogado = usuarioPotencial;
 		System.out.println("Login realizado com sucesso!");
 	}
 
-	private boolean garanteLogin() {
-		int cont = 0;
-		while (clienteLogado == null) {
+	public boolean garanteLogin() {
+		int cont = 1;
+		while (true) {
 			fazerLogin();
-			cont++;
-			if (cont > 3) {
+
+            if (this.usuarioLogado != null) {
+                return true;
+            }
+
+            cont++;
+			if (cont == 3) {
 				System.out.println("Erro: Você excedeu o número de tentativas de login.");
-				return false;
+                break;
 			}
 		}
-		return true;
+		return false;
 	}
 
+    public boolean isLogadoCliente() {
+        if (this.usuarioLogado instanceof Cliente) {
+            return true;
+        }
+        return false;
+    }
+
 	public void finalizarCompra() {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem finalizar compras.");
+            return;
+        }
+
+        Cliente usuarioLogado = (Cliente) this.usuarioLogado;
+
 		if (!garanteLogin()) {
 			return;
 		}
+
 		long idCompra = this.compraDAO.getIdUnico();
-		Compra compra = new Compra(idCompra, clienteLogado, clienteLogado.getCarrinho().getItens());
+		Compra compra = new Compra(idCompra, usuarioLogado, usuarioLogado.getCarrinho().getItens());
+
 		this.compraDAO.cadastrarCompra(compra);
 		System.out.println("Compra #" + idCompra + " realizada com sucesso!");
 	}
 
 	public void adicionarCarrinho(long idProduto, int quant) {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
+            return;
+        }
+
 		if (!garanteLogin()) {
 			return;
 		}
+        
 		Produto prod = this.produtoDAO.buscaProduto(idProduto);
 		if (prod == null) {
 			System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
 			return;
 		}
+
 		if (quant <= 0) {
 			System.out.println("Erro: Quantidade inválida.");
 			return;
 		}
-		clienteLogado.getCarrinho().adicionaItemCompra(prod, quant);
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+		cliente.getCarrinho().adicionaItemCompra(prod, quant);
 		System.out.println("Produto adicionado ao carrinho.");
 	}
 
     public void inserirProduto(String nome, double preco, String descricao, Categoria categoria, Modelo3D modelo3d,
             Anunciante anunciante) {
+        if (isLogadoCliente()) {
+            System.out.println("Erro: Apenas anunciantes podem inserir produtos.");
+            return;
+        }
+
         Produto prod = new Produto(nome, preco, descricao, categoria, modelo3d, anunciante);
         this.produtoDAO.cadastrarProduto(prod);
         System.out.println("Produto inserido com sucesso!");
     }
 
     public void inserirProduto(Produto prod) {
+        if (isLogadoCliente()) {
+            System.out.println("Erro: Apenas anunciantes podem inserir produtos.");
+            return;
+        }
+
         if (prod == null) {
             System.out.println("Erro: Produto não pode ser nulo.");
             return;
@@ -99,11 +150,17 @@ public class Sistema {
     }
 
     public void editarProduto(long idProduto, Produto newProduto) {
+        if (isLogadoCliente()) {
+            System.out.println("Erro: Apenas anunciantes podem editar produtos.");
+            return;
+        }
+
         Produto prod = this.produtoDAO.buscaProduto(idProduto);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
             return;
         }
+
         prod.setNome(newProduto.getNome());
         prod.setPreco(newProduto.getPreco());
         prod.setDescricao(newProduto.getDescricao());
@@ -115,11 +172,17 @@ public class Sistema {
     }
 
     public void excluirProduto(long idProduto) {
+        if (isLogadoCliente()) {
+            System.out.println("Erro: Apenas anunciantes podem excluir produtos.");
+            return;
+        }
+
         Produto prod = this.produtoDAO.buscaProduto(idProduto);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
             return;
         }
+
         this.produtoDAO.removerProduto(prod);
         System.out.println("Produto removido com sucesso!");
     }
