@@ -8,12 +8,12 @@ public class Compra {
 
 	private Cliente cliente;
 
-	private List<ItemCompra> itemCompra;
+	private List<ItemCompra> itens;
 
-	public Compra(long id, Cliente cliente, List<ItemCompra> itemCompra) {
+	public Compra(long id, Cliente cliente, List<ItemCompra> itens) {
 		this.id = id;
 		this.cliente = cliente;
-		this.itemCompra = itemCompra;
+		this.itens = itens;
 		this.status = "Em andamento";
 	}
 
@@ -29,12 +29,12 @@ public class Compra {
 		return this.cliente;
 	}
 
-	public List<ItemCompra> getItemCompra() {
-		return this.itemCompra;
+	public List<ItemCompra> getItens() {
+		return this.itens;
 	}
 
-	public void finalizarCompra() {
-		this.status = "Finalizado";
+	public void entregarCompra() {
+		this.status = "Entregue";
 	}
 
 	public void cancelarCompra() {

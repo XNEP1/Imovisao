@@ -8,27 +8,36 @@ public class Main {
         System.out.println("+====================+");
         do {
             System.out.println("Menu:");
+            System.out.println("0 - Fazer Login");
             System.out.println("1 - Ver produto");
-            System.out.println("2 - Ver produto 3D");
-            System.out.println("3 - Sair");
+            System.out.println("2 - Adicionar ao carrinho");
+            System.out.println("3 - Finalizar compra");
+            System.out.println("9 - Sair");
             opcao = entrada.leInt("Opção");
             switch (opcao) {
+                case 0:
+                    sistema.fazerLogin();
+                    break;
                 case 1:
-                long idProduto = entrada.leLong("ID do produto");
-                sistema.verProduto(idProduto);
-                break;
+                    long idProduto = entrada.leLong("ID do produto");
+                    sistema.verProduto(idProduto);
+                    break;
                 case 2:
-                idProduto = entrada.leLong("ID do produto");
-                sistema.verProduto3d(idProduto);
-                break;
+                    idProduto = entrada.leLong("ID do produto");
+                    int quant = entrada.leInt("Quantidade");
+                    sistema.adicionarCarrinho(idProduto, quant);
+                    break;
                 case 3:
-                System.out.println("Saindo...");
-                break;
+                    sistema.finalizarCompra();
+                    break;
+                case 9:
+                    System.out.println("Saindo...");
+                    break;
                 default:
-                System.out.println("Opcao invalida.");
-                break;
+                    System.out.println("Opcao invalida.");
+                    break;
             }
             System.out.println("-------------------");
-        } while (opcao != 3);
+        } while (opcao != 9);
     }
 }

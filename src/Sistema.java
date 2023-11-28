@@ -23,40 +23,40 @@ public class Sistema {
 
 	}
 
-	public Usuario fazerLogin() {
-		Scanner leitor = new Scanner(System.in);
+	public void fazerLogin() {
+		Entrada entrada = Entrada.getInstance();
 		System.out.println("Digite seu id:");
-		long id = leitor.nextLong();
-		Usuario usuario = this.usuarioDAO.buscaUsuario(id);
+		long id = entrada.leLong("ID");
 		System.out.println("Digite sua senha:");
-		String senha = leitor.next();
-		leitor.close();
-		if (usuario == null) {
+		String senha = entrada.leString("Senha");
+		Cliente clientePotencial = this.usuarioDAO.buscaCliente(id);
+		this.clienteLogado = null;
+		if (clientePotencial == null) {
 			System.out.println("Erro: Usuário com ID " + id + " não existe.");
-			return null;
-		} else if (!usuario.getSenha().equals(senha)) {
+			return;
+		} else if (!clientePotencial.getSenha().equals(senha)) {
 			System.out.println("Erro: Senha incorreta.");
-			return null;
+			return;
 		}
-		return usuario;
+		this.clienteLogado = clientePotencial;
+		System.out.println("Login realizado com sucesso!");
 	}
 
-	public void comprar() {
+	private boolean garanteLogin() {
 		int cont = 0;
 		while (clienteLogado == null) {
 			fazerLogin();
 			cont++;
 			if (cont > 3) {
 				System.out.println("Erro: Você excedeu o número de tentativas de login.");
-				return;
+				return false;
 			}
 		}
-		Compra compra = new Compra(0, clienteLogado, clienteLogado.getCarrinho().getItemCompra());
-		this.compraDAO.cadastrarCompra(compra);
-		System.out.println("Compra realizada com sucesso!");
+		return true;
 	}
 
 	public void verProduto(long idProduto) {
+		Entrada entrada = Entrada.getInstance();
 		Produto prod = this.produtoDAO.buscaProduto(idProduto);
 		if (prod == null) {
 			System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
@@ -73,16 +73,38 @@ public class Sistema {
 				System.out.println("\t" + denuncia.getMensagem());
 			}
 		}
+		System.out.println("Deseja visualizar o produto em 3D?");
+		if (entrada.leBoolean("Opção")) {
+			Modelo3D mod = prod.getModelo3D();
+			this.camera.verModelo3D(mod);
+		}
 	}
 
-	public void verProduto3d(long idProduto) {
+	public void finalizarCompra() {
+		if (!garanteLogin()) {
+			return;
+		}
+		long id = this.compraDAO.getIdUnico();
+		Compra compra = new Compra(id, clienteLogado, clienteLogado.getCarrinho().getItens());
+		this.compraDAO.cadastrarCompra(compra);
+		System.out.println("Compra #" + id + " realizada com sucesso!");
+	}
+
+	public void adicionarCarrinho(long idProduto, int quant) {
+		if (!garanteLogin()) {
+			return;
+		}
 		Produto prod = this.produtoDAO.buscaProduto(idProduto);
 		if (prod == null) {
 			System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
 			return;
 		}
-		Modelo3D mod = prod.getModelo3D();
-		this.camera.verModelo3D(mod);
+		if (quant <= 0) {
+			System.out.println("Erro: Quantidade inválida.");
+			return;
+		}
+		clienteLogado.getCarrinho().adicionaItemCompra(prod, quant);
+		System.out.println("Produto adicionado ao carrinho.");
 	}
 
 }

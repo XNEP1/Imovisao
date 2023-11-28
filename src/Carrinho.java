@@ -1,35 +1,33 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Carrinho {
 
-	private List<ItemCompra> itemCompra;
+	private List<ItemCompra> itens;
 
 	public Carrinho() {
+		this.itens = new ArrayList<>();
 	}
 
-	public Carrinho(List<ItemCompra> itemCompra) {
-		this.itemCompra = itemCompra;
-	}
-
-	public List<ItemCompra> getItemCompra() {
-		return this.itemCompra;
+	public List<ItemCompra> getItens() {
+		return this.itens;
 	}
 
 	public void adicionaItemCompra(Produto produto, int quantidade) {
 		ItemCompra itemCompra = new ItemCompra(quantidade, produto);
-		this.itemCompra.add(itemCompra);
+		this.itens.add(itemCompra);
 	}
 
 	public void removeItemCompra(ItemCompra itemCompra) {
-		this.itemCompra.remove(itemCompra);
+		this.itens.remove(itemCompra);
 	}
 
 	public void esvaziaCarrinho() {
-		this.itemCompra.clear();
+		this.itens.clear();
 	}
 
 	public void comprar(long id, Cliente cliente) {
-		Compra compra = new Compra(id, cliente, this.itemCompra);
+		Compra compra = new Compra(id, cliente, this.itens);
 		compra.pagarCompra();
 	}
 }

@@ -30,7 +30,4 @@ public class Cliente extends Usuario {
 		return this.favoritos;
 	}
 
-	public void adicionaCarrinho(Produto produto, int quantidade) {
-		this.carrinho.adicionaItemCompra(produto, quantidade);
-	}
 }

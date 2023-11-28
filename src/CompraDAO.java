@@ -7,4 +7,6 @@ public interface CompraDAO {
     public Compra buscaCompra(long idCompra);
 
     public void cadastrarCompra(Compra compra);
+
+    public long getIdUnico();
 }
