@@ -6,12 +6,6 @@ public class TxtCompraDAO implements CompraDAO {
 
     public TxtCompraDAO(UsuarioDAO usuarioDAO) {
         this.compras = new ArrayList<Compra>();
-        cadastrarCompra(
-                new Compra(0, usuarioDAO.buscaCliente(2), usuarioDAO.buscaCliente(2).getCarrinho().getItens()));
-        cadastrarCompra(
-                new Compra(1, usuarioDAO.buscaCliente(2), usuarioDAO.buscaCliente(2).getCarrinho().getItens()));
-        cadastrarCompra(
-                new Compra(2, usuarioDAO.buscaCliente(2), usuarioDAO.buscaCliente(2).getCarrinho().getItens()));
     }
 
     @Override
@@ -27,6 +21,17 @@ public class TxtCompraDAO implements CompraDAO {
             }
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<Compra> buscaComprasPorCliente(long idCliente) {
+        ArrayList<Compra> comprasCliente = new ArrayList<Compra>();
+        for (Compra compra : compras) {
+            if (compra.getCliente().getId() == idCliente) {
+                comprasCliente.add(compra);
+            }
+        }
+        return comprasCliente;
     }
 
     @Override

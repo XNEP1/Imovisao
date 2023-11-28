@@ -25,4 +25,8 @@ public class ItemCompra {
 		this.produto = produto;
 	}
 
+	public String getVisualizacao() {
+		return "\tQuantidade: " + quantidade + "\n\tProduto:" + produto.getVisualizacao();
+	}
+
 }

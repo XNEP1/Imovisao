@@ -45,4 +45,12 @@ public class Compra {
 		this.status = "Aprovado";
 	}
 
+	public String getVisualizacao() {
+		String conteudo = "Compra #" + id + "\n";
+		for (ItemCompra itemCompra : itens) {
+			conteudo += itemCompra.getVisualizacao();
+		}
+		return conteudo;
+	}
+
 }

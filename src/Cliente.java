@@ -6,14 +6,12 @@ public class Cliente extends Usuario {
 
     private Carrinho carrinho;
 
-    private List<ItemCompra> comprados;
     private List<Produto> favoritos;
 
     public Cliente(long id, String nome, String email, String telefone, String senha, String documento,
             Endereco endereco) {
         super(id, nome, email, telefone, senha, documento, endereco);
         this.carrinho = new Carrinho();
-        this.comprados = new ArrayList<ItemCompra>();
         this.favoritos = new ArrayList<Produto>();
     }
 
@@ -46,21 +44,13 @@ public class Cliente extends Usuario {
         anunc.registrarFeedback(feedback);
     }
 
-    public void registrarCompra(ItemCompra item) {
-        this.comprados.add(item);
-    }
-
-    public List<ItemCompra> getItensComprados() {
-        return this.comprados;
-    }
-
     public void favoritarProduto(Produto prod) {
         if (prod == null) {
             System.out.println("Erro: Produto não pode ser nulo.");
             return;
         }
 
-        if(this.favoritos.contains(prod)){
+        if (this.favoritos.contains(prod)) {
             return;
         }
 
@@ -73,7 +63,7 @@ public class Cliente extends Usuario {
             return;
         }
 
-        if(!this.favoritos.contains(prod)){
+        if (!this.favoritos.contains(prod)) {
             return;
         }
 
@@ -82,14 +72,6 @@ public class Cliente extends Usuario {
 
     public Carrinho getCarrinho() {
         return this.carrinho;
-    }
-
-    // busca carrinho cliente pelo id
-    public Carrinho getCarrinhoId(long id) {
-        if (this.getId() == id) {
-            return this.carrinho;
-        }
-        return null;
     }
 
     public List<Produto> getFavoritos() {
