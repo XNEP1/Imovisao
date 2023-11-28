@@ -99,6 +99,11 @@ public class Sistema {
             return;
         }
 
+        if(usuarioLogado.getCarrinho().getItens().size() == 0){
+            System.out.println("Erro: Você não pode finalizar uma compra com o carrinho vazio.");
+            return;
+        }
+
         long idCompra = this.compraDAO.getIdUnico();
         Compra compra = new Compra(idCompra, usuarioLogado, usuarioLogado.getCarrinho().getItens());
 
