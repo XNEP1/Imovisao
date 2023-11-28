@@ -1,3 +1,22 @@
+/*
+  _____                               _                       
+ |_   _|                             (_)                      
+   | |    _ __ ___     ___   __   __  _   ___    __ _    ___  
+   | |   | '_ ` _ \   / _ \  \ \ / / | | / __|  / _` |  / _ \ 
+  _| |_  | | | | | | | (_) |  \ V /  | | \__ \ | (_| | | (_) |
+ |_____| |_| |_| |_|  \___/    \_/   |_| |___/  \__,_|  \___/ 
+
+
+De
+    Bruno Krügel
+    Bruno Dal Pontte
+    Henrique Colini
+    Lucas Araujo
+    Vitor Igami
+    Victor Ribeiro Garcia
+
+ */                                               
+
 public class Main {
     public static void main(String[] args) {
         Entrada entrada = Entrada.getInstance();
