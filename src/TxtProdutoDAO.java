@@ -17,7 +17,7 @@ public class TxtProdutoDAO implements ProdutoDAO {
                 new Modelo3D("modelos/exemplo2.txt", 1, 1, 1),
                 usuarioDAO.buscaAnunciante(1)));
         cadastrarProduto(new Produto(2,
-                30, "Whiskey Singleton", "Seria uma bebida baseada em um padrao de projeto?", 300,
+                30, "Whisky Singleton", "Seria uma bebida baseada em um padrao de projeto?", 300,
                 new Categoria("Exemplos"),
                 new Modelo3D("modelos/exemplo3.txt", 1, 1, 1),
                 usuarioDAO.buscaAnunciante(0)));
