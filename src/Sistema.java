@@ -138,10 +138,10 @@ public class Sistema {
         Entrada entrada = Entrada.getInstance();
         String nome = entrada.leString("Nome");
         double preco;
-        do{
+        do {
             preco = entrada.leDouble("Preço");
 
-        } while(preco <= 0);
+        } while (preco <= 0);
         String descricao = entrada.leString("Descrição");
         String strCategoria = entrada.leString("Categoria");
         Categoria categoria = new Categoria(strCategoria);
@@ -174,8 +174,8 @@ public class Sistema {
         }
 
         // Verifica se o produto pertence ao anunciante logado
-        Anunciante Anunciante = (Anunciante) this.usuarioLogado;
-        if (prod.getAnunciante().getId() != Anunciante.getId()) {
+        Anunciante anunciante = (Anunciante) this.usuarioLogado;
+        if (prod.getAnunciante().getId() != anunciante.getId()) {
             System.out.println("Erro: Você não pode editar um produto que não é seu.");
             return;
         }
@@ -186,44 +186,42 @@ public class Sistema {
         System.out.println("Digite as novas informações do produto:");
         System.out.println("Deixe em branco para manter o valor atual.");
         System.out.println("Nome atual: " + prod.getNome());
-        String Nome = entrada.leString("Nome");
-        if (Nome.equals("")) {
-            Nome = prod.getNome();
+        String nome = entrada.leString("Nome");
+        if (nome.equals("")) {
+            nome = prod.getNome();
         }
 
         System.out.println("Preço atual: " + prod.getPreco());
-        double Preco = entrada.leDouble("Preço");
-        if (Preco == 0) {
-            Preco = prod.getPreco();
+        double preco = entrada.leDouble("Preço");
+        if (preco == 0) {
+            preco = prod.getPreco();
         }
 
         System.out.println("Descrição atual: " + prod.getDescricao());
-        String Descricao = entrada.leString("Descrição");
-        if (Descricao.equals("")) {
-            Descricao = prod.getDescricao();
+        String descricao = entrada.leString("Descrição");
+        if (descricao.equals("")) {
+            descricao = prod.getDescricao();
         }
 
         System.out.println("Categoria atual: " + prod.getCategoria().getNome());
         String strCategoria = entrada.leString("Categoria");
-        Categoria Categoria = prod.getCategoria();
+        Categoria categoria = prod.getCategoria();
         if (!strCategoria.equals("")) {
-            Categoria = new Categoria(strCategoria);
+            categoria = new Categoria(strCategoria);
         }
 
-        Modelo3D Modelo3D = prod.getModelo3D();
-        System.out.println("Deseja alterar o modelo 3D?");
-        if (entrada.leBoolean("Opção")) {
-            System.out.println("Digite o caminho para o novo modelo 3D:");
-            // String caminho = entrada.leString("Caminho");
-            // vai ficar querendo mudar
-            System.out.println("Erro: Não implementado.");
+        System.out.println("Modelo 3D atual: " + prod.getModelo3D().getArquivoModelo());
+        String strModelo = entrada.leString("Modelo");
+        Modelo3D modelo = prod.getModelo3D();
+        if (!strModelo.equals("")) {
+            modelo = new Modelo3D(strModelo, 1, 1, 1);
         }
 
-        prod.setNome(Nome);
-        prod.setPreco(Preco);
-        prod.setDescricao(Descricao);
-        prod.setCategoria(Categoria);
-        prod.setModelo3D(Modelo3D);
+        prod.setNome(nome);
+        prod.setPreco(preco);
+        prod.setDescricao(descricao);
+        prod.setCategoria(categoria);
+        prod.setModelo3D(modelo);
 
         System.out.println("-------------------");
         System.out.println("Produto editado com sucesso!");
@@ -261,6 +259,11 @@ public class Sistema {
             return;
         }
         System.out.println(prod.getVisualizacao());
+        System.out.println("Deseja visualizar o produto em 3D?");
+        if (Entrada.getInstance().leBoolean("Opção")) {
+            Modelo3D mod = prod.getModelo3D();
+            this.camera.verModelo3D(mod);
+        }
     }
 
     public void visualizarProdutos() {
@@ -288,7 +291,7 @@ public class Sistema {
             if (this.isLogadoCliente())
                 System.out.printf(" 3 - Favoritar ou desfavoritar produto\n");
             System.out.printf(" 9 - Voltar\n");
-            int opcao = entrada.leInt("Opção:");
+            int opcao = entrada.leInt("Opção");
             switch (opcao) {
                 case 1:
                     if (start + num < prods.size())
@@ -296,7 +299,7 @@ public class Sistema {
 
                     break;
                 case 2:
-                    start = entrada.leInt("Página:");
+                    start = entrada.leInt("Página");
                     start--;
                     System.out.println(start + " " + prods.size());
                     if (start > prods.size() / num)
@@ -314,14 +317,15 @@ public class Sistema {
                     }
 
                     Cliente cliente = (Cliente) this.usuarioLogado;
-                    do {
-                        index = entrada.leInt("Index do produto:");
-                    } while (index < 0 || index >= num);
-
-                    cliente.favoritarProduto(prods.get(start + index));
-
-                    System.out.println("Produto " + index + " favoritado!");
-
+                    long idProduto = entrada.leLong("ID do produto");
+                    Produto prodFavorito = produtoDAO.buscaProduto(idProduto);
+                    if (prodFavorito == null) {
+                        System.out.println("Produto " + idProduto + " não existe.");
+                        return;
+                    } else {
+                        cliente.favoritarProduto(prodFavorito);
+                        System.out.println("Produto " + index + " favoritado!");
+                    }
                     break;
                 case 9:
                     return;
@@ -364,10 +368,7 @@ public class Sistema {
         System.out.println("-------------------");
         System.out.println("Produtos Favoritos:");
         for (Produto produto : cliente.getFavoritos()) {
-            System.out.println(produto.getNome() +
-                    " #" + produto.getId() +
-                    " (" + produto.getCategoria() + ")" +
-                    " Anunciante: " + produto.getAnunciante().getNome());
+            System.out.println(produto.getVisualizacao());
         }
     }
 
@@ -382,13 +383,10 @@ public class Sistema {
 
         System.out.println("-------------------");
         System.out.println("Produtos Comprados:");
-        for (ItemCompra produto : cliente.getItensComprados()) {
+        for (ItemCompra item : cliente.getItensComprados()) {
             System.out.println("Compra " + i);
-            System.out.println(produto.getProduto().getNome() +
-                    " #" + produto.getProduto().getId() +
-                    " (" + produto.getProduto().getCategoria() + ")" +
-                    " Anunciante: " + produto.getProduto().getAnunciante().getNome());
-            System.out.println("\tQuantidade: " + produto.getQuantidade());
+            System.out.println("Quantidade: " + item.getQuantidade());
+            System.out.println("Produto:\n" + item.getProduto().getVisualizacao());
             System.out.println();
             i += 1;
         }
