@@ -55,6 +55,16 @@ public class TxtUsuarioDAO implements UsuarioDAO {
     }
 
     @Override
+    public Usuario buscaUsuario(String email){
+        for (Usuario usuario : usuarios) {
+            if (usuario.getEmail().equals(email)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Cliente buscaCliente(long idCliente) {
         for (Usuario usuario : usuarios) {
             if (usuario instanceof Cliente && usuario.getId() == idCliente) {

@@ -10,6 +10,8 @@ public interface UsuarioDAO {
     
     public Usuario buscaUsuario(long idUsuario);
 
+    public Usuario buscaUsuario(String email);
+
     public Cliente buscaCliente(long idCliente);
 
     public Anunciante buscaAnunciante(long idAnunciante);
