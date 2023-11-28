@@ -13,19 +13,6 @@ public class Produto {
     private Anunciante anunciante;
     private List<Denuncia> denuncias;
 
-    public Produto(String nome, double preco, String descricao, Categoria categoria, Modelo3D modelo3d,
-            Anunciante anunciante) {
-        this.nome = nome;
-        this.id = -1;
-        this.preco = preco;
-        this.descricao = descricao;
-        this.avaliacao = 0;
-        this.categoria = categoria;
-        this.modelo3D = modelo3d;
-        this.anunciante = anunciante;
-        this.denuncias = new ArrayList<Denuncia>();
-    }
-
     public Produto(long id, double preco, String nome, String descricao, int avaliacao, Categoria categoria,
             Modelo3D modelo3d, Anunciante anunciante) {
         this.nome = nome;

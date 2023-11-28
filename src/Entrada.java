@@ -45,6 +45,18 @@ public class Entrada {
         }
     }
 
+    public Double leDouble(String mensagem) {
+        String linha;
+        while (true) {
+            linha = leString(mensagem);
+            try {
+                return Double.parseDouble(linha);
+            } catch (NumberFormatException e) {
+                System.out.println("Erro: Entrada invalida.");
+            }
+        }
+    }
+
     public boolean leBoolean(String mensagem) {
         String linha;
         while (true) {

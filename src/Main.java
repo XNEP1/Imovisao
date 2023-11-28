@@ -21,7 +21,7 @@ public class Main {
         // Define o tipo de usuario
         boolean isCliente = sistema.isLogadoCliente();
 
-        if (isCliente) {
+        if (isCliente) { // Menu do cliente
             System.out.println("Bem-vindo, Cliente " + usuario.getNome() + "!");
             do {
                 System.out.println("Menu:");
@@ -52,10 +52,41 @@ public class Main {
                 }
                 System.out.println("-------------------");
             } while (opcao != 9);
-        } else {
+        } else { // Menu do anunciante
             System.out.println("Bem-vindo, Anunciante " + usuario.getNome() + "!");
-            System.out.println("Voce não tem sistema ainda :)");
-            System.out.println("Saindo...");
+            do {
+                System.out.println("Menu:");
+                System.out.println("1 - Ver produto");
+                System.out.println("2 - Adicionar produto");
+                System.out.println("3 - Editar produto");
+                System.out.println("4 - Remover produto");
+                System.out.println("9 - Sair");
+                opcao = entrada.leInt("Opção");
+                switch (opcao) {
+                    case 1: // Ver produto
+                        idProduto = entrada.leLong("ID do produto que deseja visualizar");
+                        sistema.visualizarProduto(idProduto);
+                        break;
+                    case 2: // Adicionar produto
+                        sistema.adicionarProduto();
+                        break;
+                    case 3: // Editar produto
+                        idProduto = entrada.leLong("ID do produto que deseja editar");
+                        sistema.editarProduto(idProduto);
+                        break;
+                    case 4: // Remover produto
+                        idProduto = entrada.leLong("ID do produto que deseja remover");
+                        sistema.removerProduto(idProduto);
+                        break;
+                    case 9:
+                        System.out.println("Saindo...");
+                        break;
+                    default:
+                        System.out.println("Opcao invalida.");
+                        break;
+                }
+                System.out.println("-------------------");
+            } while (opcao != 9);
         }
     }
 }
