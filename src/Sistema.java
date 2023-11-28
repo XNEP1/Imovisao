@@ -35,12 +35,20 @@ public class Sistema {
 
         Entrada entrada = Entrada.getInstance();
 
-        long id = entrada.leLong("ID Usuario");
+        String id_string = entrada.leString("Email ou ID do Usuario");
+        long id_long;
+        Usuario usuarioPotencial;
+        try {
+            id_long = Integer.parseInt(id_string);
+            usuarioPotencial = this.usuarioDAO.buscaUsuario(id_long);
+        } catch (NumberFormatException e) {
+            usuarioPotencial = this.usuarioDAO.buscaUsuario(id_string);
+        }
+
         String senha = entrada.leString("Senha");
 
-        Usuario usuarioPotencial = this.usuarioDAO.buscaUsuario(id);
         if (usuarioPotencial == null) {
-            System.out.println("Erro: Usuário com ID " + id + " não existe.");
+            System.out.println("Erro: Usuário com ID " + id_string + " não existe.");
             return;
         } else if (!usuarioPotencial.getSenha().equals(senha)) {
             System.out.println("Erro: Senha incorreta.");
