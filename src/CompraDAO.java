@@ -6,6 +6,8 @@ public interface CompraDAO {
 
     public Compra buscaCompra(long idCompra);
 
+    public ArrayList<Compra> buscaComprasPorCliente(long idCliente);
+
     public void cadastrarCompra(Compra compra);
 
     public long getIdUnico();

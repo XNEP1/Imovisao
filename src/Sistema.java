@@ -101,11 +101,6 @@ public class Sistema {
 
         long idCompra = this.compraDAO.getIdUnico();
         Compra compra = new Compra(idCompra, usuarioLogado, usuarioLogado.getCarrinho().getItens());
-
-        for (ItemCompra item : usuarioLogado.getCarrinho().getItens()) {
-            usuarioLogado.registrarCompra(item);
-        }
-
         this.compraDAO.cadastrarCompra(compra);
         System.out.println("Compra #" + idCompra + " realizada com sucesso!");
     }
@@ -380,38 +375,45 @@ public class Sistema {
         }
     }
 
-    public int visualizarCompras() {
+    public void visualizarCompras() {
         if (!isLogadoCliente()) {
-            System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
-            return 0;
-        }
-
-        Cliente cliente = (Cliente) this.usuarioLogado;
-        int i = 0;
-
-        System.out.println("-------------------");
-        System.out.println("Produtos Comprados:");
-        for (ItemCompra item : cliente.getItensComprados()) {
-            System.out.println("Compra " + i);
-            System.out.println("Quantidade: " + item.getQuantidade());
-            System.out.println("Produto:\n" + item.getProduto().getVisualizacao());
-            System.out.println();
-            i += 1;
-        }
-
-        return i;
-    }
-
-    public void enviarFeedback(int indiceProdutoComprado, String texto) {
-        if (!isLogadoCliente()) {
-            System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
+            System.out.println("Erro: Apenas clientes podem visualizar suas compras.");
             return;
         }
 
         Cliente cliente = (Cliente) this.usuarioLogado;
 
-        ItemCompra item = cliente.getItensComprados().get(indiceProdutoComprado);
-        cliente.enviarFeedback(item.getProduto(), texto);
+        System.out.println("-------------------");
+        System.out.println("Compras realizadas:");
+        for (Compra compra : compraDAO.buscaComprasPorCliente(cliente.getId())) {
+            System.out.println(compra.getVisualizacao());
+        }
+    }
+
+    public void enviarFeedback(long idProduto, String texto) {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem enviar feedback.");
+            return;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+        Produto prodComprado = null;
+
+        for (Compra compra : compraDAO.buscaComprasPorCliente(cliente.getId())) {
+            for (ItemCompra item : compra.getItens()) {
+                if (item.getProduto().getId() == idProduto) {
+                    prodComprado = item.getProduto();
+                    break;
+                }
+            }
+        }
+
+        if (prodComprado == null) {
+            System.out.println("Erro: Você não pode dar feedback para um produto que você nunca comprou.");
+        } else {
+            cliente.enviarFeedback(prodComprado, texto);
+        }
+
     }
 
 }

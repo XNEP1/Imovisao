@@ -15,7 +15,7 @@ De
     Vitor Igami
     Victor Ribeiro Garcia
 
- */                                               
+ */
 
 public class Main {
     public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class Main {
         // path: modelos/logo.txt
         Modelo3D logo = new Modelo3D("modelos/logo.txt", 1, 1, 1);
         System.out.println(logo.getRenderizacao());
-        
+
         System.out.println("+====================+");
         System.out.println("Bem-vindo ao Imovisão!");
         System.out.println("+====================+");
@@ -92,18 +92,14 @@ public class Main {
                         sistema.finalizarCompra();
                         break;
                     case 4:
-                        int qntItens = sistema.visualizarCompras();
+                        sistema.visualizarCompras();
                         System.out.println("Menu Opções em Minhas Compras:");
                         System.out.println("1 - Enviar Feedback");
                         System.out.println("9 - Voltar");
                         opcao = entrada.leInt("Opção");
                         switch (opcao) {
                             case 1:
-                                int compraSelecionado = entrada.leInt("Selecione uma compra");
-                                if (compraSelecionado < 0 || compraSelecionado > qntItens) {
-                                    System.out.println("Opcao invalida.");
-                                    break;
-                                }
+                                long compraSelecionado = entrada.leLong("ID do produto");
                                 String feedbackTexto = entrada.leString("Dê um texto de feedback");
                                 sistema.enviarFeedback(compraSelecionado, feedbackTexto);
                                 break;
