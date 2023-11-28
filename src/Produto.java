@@ -36,13 +36,13 @@ public class Produto {
         this.nome = nome;
     }
 
-	public String getDescricao() {
+    public String getDescricao() {
         return this.descricao;
     }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
     public long getId() {
         return this.id;
@@ -56,33 +56,33 @@ public class Produto {
         return this.modelo3D;
     }
 
-	public void setModelo3D(Modelo3D modelo3d) {
-		modelo3D = modelo3d;
-	}
+    public void setModelo3D(Modelo3D modelo3d) {
+        modelo3D = modelo3d;
+    }
 
-	public void setAnunciante(Anunciante anunciante) {
-		this.anunciante = anunciante;
-	}
+    public void setAnunciante(Anunciante anunciante) {
+        this.anunciante = anunciante;
+    }
 
-	public void setDenuncias(List<Denuncia> denuncias) {
-		this.denuncias = denuncias;
-	}
+    public void setDenuncias(List<Denuncia> denuncias) {
+        this.denuncias = denuncias;
+    }
 
     public double getPreco() {
         return this.preco;
     }
 
-	public void setPreco(double preco) {
-		this.preco = preco;
-	}
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
 
     public Categoria getCategoria() {
         return this.categoria;
     }
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 
     public Anunciante getAnunciante() {
         return this.anunciante;
@@ -92,13 +92,40 @@ public class Produto {
         return this.denuncias;
     }
 
-	public void setAvaliacao(int avaliacao) {
-		this.avaliacao = avaliacao;
-	}
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
+    }
 
     // Funcoes membro
 
     public void registrarDenuncia(Denuncia denuncia) {
         this.denuncias.add(denuncia);
+    }
+
+    public String getVisualizacao() {
+        String completa = "";
+        String substr;
+        int i;
+        completa += String.format(
+                " ______________________________________________________________________________________ \n");
+        completa += String.format("│ %03d - %-50s │ %-25s │\n", id, nome, categoria.getNome());
+        completa += String.format("│  R$: %-80.2f│\n", preco);
+        completa += String.format(
+                "│  Descrição:________________________________________________________________________  │\n",
+                "Descrição:");
+        for (i = 0; i < descricao.length() / 80; i++) {
+            substr = descricao.substring(i * 80, i * 80 + 80);
+            completa += String.format("│ │ %-80s │ │\n", substr);
+
+        }
+        substr = descricao.substring(i * 80, descricao.length());
+        completa += String.format("│ │ %-80s │ │\n", substr);
+        completa += String.format(
+                "│ │__________________________________________________________________________________│ │\n");
+        completa += String.format("│  Anunciante: %-55s  Avaliação: %-3d │\n", this.getAnunciante().getNome(),
+                this.getAvaliacao());
+        completa += String.format(
+                "│______________________________________________________________________________________│\n");
+        return completa;
     }
 }
