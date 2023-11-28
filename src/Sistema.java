@@ -255,74 +255,30 @@ public class Sistema {
     }
 
     public void visualizarProduto(long idProduto) {
-        Entrada entrada = Entrada.getInstance();
         Produto prod = this.produtoDAO.buscaProduto(idProduto);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
             return;
         }
-        System.out.println(prod.getNome() + " #" + prod.getId() + "(" + prod.getCategoria() + ")");
-        System.out.println("R$ " + prod.getPreco());
-        System.out.println(prod.getDescricao());
-        System.out.println("Avaliação: " + prod.getAvaliacao());
-        System.out.println("Anunciante: " + prod.getAnunciante().getNome());
-        if (prod.getDenuncias().size() > 0) {
-            System.out.println("Denúncias:");
-            for (Denuncia denuncia : prod.getDenuncias()) {
-                System.out.println("\t" + denuncia.getMensagem());
-            }
-        }
-        System.out.println("Deseja visualizar o produto em 3D?");
-        if (entrada.leBoolean("Opção")) {
-            Modelo3D mod = prod.getModelo3D();
-            this.camera.verModelo3D(mod);
-        }
+        System.out.println(prod.getVisualizacao());
     }
 
-    // public void visualizarProdutos() {
-    //     System.out.println("-------------------");
-    //     System.out.println("Produtos:");
-    //     for (Produto produto : this.produtoDAO.listarProdutos()) {
-    //         System.out.println(produto.getNome() +
-    //                 " #" + produto.getId() +
-    //                 " (" + produto.getCategoria() + ")" +
-    //                 " Anunciante: " + produto.getAnunciante().getNome());
-    //     }
-    // }
-
-    public void visualizarProdutos(){   
+    public void visualizarProdutos() {
 
         List<Produto> prods = this.produtoDAO.listarProdutos();
         Entrada entrada = Entrada.getInstance();
-        String substr;
-        int index=0;
-        int start=0;
-        int num=5;
+        int index = 0;
+        int start = 0;
+        int num = 5;
 
-        while(true){
-
-            for (int j=start;j<start+num&&j<prods.size();j++) {
-                Produto prod=prods.get(j);
-                int i;
-                System.out.printf(" ______________________________________________________________________________________ \n");
-                System.out.printf("│ %d - %-50s │ %-25s   │\n",index,prod.getNome(),prod.getCategoria().getNome());
-                System.out.printf("│  R$: %-80.2f│\n",prod.getPreco());
-                System.out.printf("│  Descrição:________________________________________________________________________  │\n","Descrição:");
-                for(i=0;i<prod.getDescricao().length()/80;i++){
-                    substr = prod.getDescricao().substring(i*80, i*80+80);
-                    System.out.printf("│ │ %-80s │ │\n",substr);
-            
-                }
-                substr = prod.getDescricao().substring(i*80, prod.getDescricao().length());
-                System.out.printf("│ │ %-80s │ │\n",substr);
-                System.out.printf("│ │__________________________________________________________________________________│ │\n");
-                System.out.printf("│  Anunciante: %-55s  Avaliação: %-3d │\n",prod.getAnunciante().getNome(),prod.getAvaliacao());
-                System.out.printf("│______________________________________________________________________________________│\n");
+        while (true) {
+            for (int j = start; j < start + num && j < prods.size(); j++) {
+                Produto prod = prods.get(j);
+                System.out.println(prod.getVisualizacao());
                 index++;
-                
             }
             System.out.printf("\n  Páginas: %d - ", start / num + 1);
-            for(int k=1; k <= prods.size()/num + 1; k++)
+            for (int k = 1; k <= prods.size() / num + 1; k++)
                 System.out.printf("Atual: %d ", k);
             System.out.printf("\n");
 
@@ -335,45 +291,45 @@ public class Sistema {
             int opcao = entrada.leInt("Opção:");
             switch (opcao) {
                 case 1:
-                    if(start+num<prods.size())
-                        start+=num;
+                    if (start + num < prods.size())
+                        start += num;
 
-                break;
+                    break;
                 case 2:
-                    start=entrada.leInt("Página:");
+                    start = entrada.leInt("Página:");
                     start--;
-                    System.out.println(start+" "+prods.size());
-                    if(start>prods.size()/num)
-                        start=prods.size()/num;
-                    else if(start<0)
-                        start=0;
-                    
-                    start*=num;
+                    System.out.println(start + " " + prods.size());
+                    if (start > prods.size() / num)
+                        start = prods.size() / num;
+                    else if (start < 0)
+                        start = 0;
 
-                break;
+                    start *= num;
+
+                    break;
                 case 3:
                     if (!this.isLogadoCliente()) {
                         System.out.println("Opção inválida.");
                         return;
                     }
-                    
+
                     Cliente cliente = (Cliente) this.usuarioLogado;
-                    do{
-                        index =entrada.leInt("Index do produto:");
-                    }while(index<0||index>=num);
-                    
-                    cliente.favoritarProduto(prods.get(start+index));
-                    
+                    do {
+                        index = entrada.leInt("Index do produto:");
+                    } while (index < 0 || index >= num);
+
+                    cliente.favoritarProduto(prods.get(start + index));
+
                     System.out.println("Produto " + index + " favoritado!");
 
-                break;
+                    break;
                 case 9:
                     return;
                 default:
                     System.out.println("Opção inválida.");
                     return;
             }
-            index=0;
+            index = 0;
         }
 
     }
