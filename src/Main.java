@@ -23,6 +23,12 @@ public class Main {
         Sistema sistema = new Sistema();
         int opcao;
         long idProduto;
+
+        // Imprime o txt com a logo do app
+        // path: modelos/logo.txt
+        Modelo3D logo = new Modelo3D("modelos/logo.txt", 1, 1, 1);
+        System.out.println(logo.getRenderizacao());
+        
         System.out.println("+====================+");
         System.out.println("Bem-vindo ao Imovisão!");
         System.out.println("+====================+");

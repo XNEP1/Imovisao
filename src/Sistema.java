@@ -35,10 +35,7 @@ public class Sistema {
 
         Entrada entrada = Entrada.getInstance();
 
-        System.out.println("Digite seu id:");
-        long id = entrada.leLong("ID");
-
-        System.out.println("Digite sua senha:");
+        long id = entrada.leLong("ID Usuario");
         String senha = entrada.leString("Senha");
 
         Usuario usuarioPotencial = this.usuarioDAO.buscaUsuario(id);
