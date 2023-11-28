@@ -159,7 +159,11 @@ public class Sistema {
         String strCategoria = entrada.leString("Categoria");
         Categoria categoria = new Categoria(strCategoria);
 
-        Modelo3D modelo3d = null;
+        String strCaminhoModelo = entrada.leString("Caminho para o modelo 3D");
+        if(strCaminhoModelo.equals("")){
+            strCaminhoModelo = "modelos/exemplo1.txt";
+        }
+        Modelo3D modelo3d = new Modelo3D(strCaminhoModelo, 1, 1, 1);
         Anunciante anunciante = (Anunciante) this.usuarioLogado;
 
         Produto prod = new Produto(this.produtoDAO.getIdUnico(), preco, nome, descricao, 0, categoria, modelo3d,
