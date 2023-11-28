@@ -3,6 +3,7 @@ public class Main {
         Entrada entrada = Entrada.getInstance();
         Sistema sistema = new Sistema();
         int opcao;
+        long idProduto;
         System.out.println("+====================+");
         System.out.println("Bem-vindo ao Imovisão!");
         System.out.println("+====================+");
@@ -14,19 +15,19 @@ public class Main {
             opcao = entrada.leInt("Opção");
             switch (opcao) {
                 case 1:
-                long idProduto = entrada.leLong("ID do produto");
-                sistema.verProduto(idProduto);
-                break;
+                    idProduto = entrada.leLong("ID do produto");
+                    sistema.visualizarProduto(idProduto);
+                    break;
                 case 2:
-                idProduto = entrada.leLong("ID do produto");
-                sistema.verProduto3d(idProduto);
-                break;
+                    idProduto = entrada.leLong("ID do produto");
+                    sistema.visualizarProduto3D(idProduto);
+                    break;
                 case 3:
-                System.out.println("Saindo...");
-                break;
+                    System.out.println("Saindo...");
+                    break;
                 default:
-                System.out.println("Opcao invalida.");
-                break;
+                    System.out.println("Opcao invalida.");
+                    break;
             }
             System.out.println("-------------------");
         } while (opcao != 3);

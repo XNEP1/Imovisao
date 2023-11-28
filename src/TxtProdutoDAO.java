@@ -20,7 +20,7 @@ public class TxtProdutoDAO implements ProdutoDAO {
                 30, "Exemplo 3", "Mais um produto", 300,
                 new Categoria("Exemplos"),
                 new Modelo3D("modelos/exemplo3.txt", 1, 1, 1),
-                usuarioDAO.buscaAnunciante(2)));
+                usuarioDAO.buscaAnunciante(0)));
     }
 
     @Override
@@ -47,6 +47,15 @@ public class TxtProdutoDAO implements ProdutoDAO {
             }
         }
         produtos.add(produto);
+    }
+
+    @Override
+    public void removerProduto(Produto produto) {
+        Produto p = buscaProduto(produto.getId());
+        if (p == null) {
+            System.out.println("Erro: Produto com ID " + produto.getId() + " não existe.");
+        }
+        produtos.remove(p);
     }
 
 }

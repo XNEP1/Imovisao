@@ -35,7 +35,7 @@ public class Sistema {
         System.out.println("Produto inserido com sucesso!");
     }
 
-    public void editarProduto(int id, Produto newProduto) {
+    public void editarProduto(long id, Produto newProduto) {
         Produto prod = this.produtoDAO.buscaProduto(id);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + id + " não existe.");
@@ -51,7 +51,7 @@ public class Sistema {
         System.out.println("Produto editado com sucesso!");
     }
 
-    public void excluirProduto(int id) {
+    public void excluirProduto(long id) {
         Produto prod = this.produtoDAO.buscaProduto(id);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + id + " não existe.");
@@ -61,7 +61,7 @@ public class Sistema {
         System.out.println("Produto removido com sucesso!");
     }
 
-    public void visualizarProduto(int id) {
+    public void visualizarProduto(long id) {
         Produto prod = this.produtoDAO.buscaProduto(id);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + id + " não existe.");
@@ -80,7 +80,7 @@ public class Sistema {
         }
     }
 
-    public void visualizarProduto3D(int id) {
+    public void visualizarProduto3D(long id) {
         Produto prod = this.produtoDAO.buscaProduto(id);
         if (prod == null) {
             System.out.println("Erro: Produto com ID " + id + " não existe.");

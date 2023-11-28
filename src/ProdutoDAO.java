@@ -8,4 +8,5 @@ public interface ProdutoDAO {
 
     public void cadastrarProduto(Produto produto);
 
+    public void removerProduto(Produto produto);
 }
