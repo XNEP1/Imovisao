@@ -19,6 +19,7 @@ public class Camera {
             pedeAutorizacao();
         if (this.autorizada) {
             System.out.println("[Camera] Mostrando modelo 3D...");
+            System.out.println(modelo3D.getRenderizacao());
             System.out.println("[Camera] terminado.");
         } else {
             System.out.println("[Camera] Acesso negado.");
