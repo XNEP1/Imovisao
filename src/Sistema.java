@@ -370,6 +370,8 @@ public class Sistema {
         return true;
     }
 
+
+
     public void visualizarFavoritos() {
         if (!isLogadoCliente()) {
             System.out.println("Erro: Apenas clientes podem visualizar seus favoritos.");
@@ -417,6 +419,24 @@ public class Sistema {
 
         ItemCompra item = cliente.getItensComprados().get(indiceProdutoComprado);
         cliente.enviarFeedback(item.getProduto(), texto);
+        System.out.println("Feedback registrado com sucesso!");
+    }
+
+    public void reportarAnuncio(long idProduto, String texto) {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
+            return;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+
+        Produto prod = this.produtoDAO.buscaProduto(idProduto);
+        if (prod == null) {
+            System.out.println("Produto " + idProduto + " não existe.");
+            return;
+        }
+        cliente.reportarAnuncio(prod, 0, texto, "");
+        System.out.println("Produto reportado com sucesso!");
     }
 
 }

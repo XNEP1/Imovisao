@@ -121,8 +121,9 @@ public class Main {
                         sistema.favoritarProduto(idProduto);
                         break;
                     case 6:
-                        idProduto = entrada.leLong("ID do produto");
-                        sistema.favoritarProduto(idProduto);
+                        idProduto = entrada.leLong("Selecione um Produto para denunciar");
+                        String texto = entrada.leString("Dê uma mensagem para denuncia");
+                        sistema.reportarAnuncio(idProduto, texto);
                         break;
                     case 9:
                         System.out.println("Saindo...");
