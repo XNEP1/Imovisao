@@ -137,7 +137,11 @@ public class Sistema {
         // Ler informacoes do produto
         Entrada entrada = Entrada.getInstance();
         String nome = entrada.leString("Nome");
-        double preco = entrada.leDouble("Preço");
+        double preco;
+        do{
+            preco = entrada.leDouble("Preço");
+
+        } while(preco <= 0);
         String descricao = entrada.leString("Descrição");
         String strCategoria = entrada.leString("Categoria");
         Categoria categoria = new Categoria(strCategoria);
