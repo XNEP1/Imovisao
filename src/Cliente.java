@@ -92,4 +92,21 @@ public class Cliente extends Usuario {
 
         this.favoritos.add(prod);
     }
+
+	public Carrinho getCarrinho() {
+		return this.carrinho;
+	}
+
+	// busca carrinho cliente pelo id
+	public Carrinho getCarrinhoId(long id) {
+		if (this.getId() == id) {
+			return this.carrinho;
+		}
+		return null;
+	}
+
+	public List<Produto> getFavoritos() {
+		return this.favoritos;
+	}
+
 }
