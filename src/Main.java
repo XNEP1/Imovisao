@@ -55,6 +55,7 @@ public class Main {
                 System.out.println("3 - Finalizar compra");
                 System.out.println("4 - Ver minhas compras");
                 System.out.println("5 - Favoritar produto");
+                System.out.println("6 - Denunciar produto");
                 System.out.println("9 - Sair");
                 opcao = entrada.leInt("Opção");
                 switch (opcao) {
@@ -116,6 +117,10 @@ public class Main {
                         }
                         break;
                     case 5:
+                        idProduto = entrada.leLong("ID do produto");
+                        sistema.favoritarProduto(idProduto);
+                        break;
+                    case 6:
                         idProduto = entrada.leLong("ID do produto");
                         sistema.favoritarProduto(idProduto);
                         break;
