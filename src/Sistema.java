@@ -52,6 +52,8 @@ public class Sistema {
 			}
 		}
 		Compra compra = new Compra(0, clienteLogado, clienteLogado.getCarrinho().getItemCompra());
+		this.compraDAO.cadastrarCompra(compra);
+		System.out.println("Compra realizada com sucesso!");
 	}
 
 	public void verProduto(long idProduto) {
