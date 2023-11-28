@@ -19,35 +19,6 @@ public class Sistema {
 
     }
 
-    public void verProduto(long idProduto) {
-        Produto prod = this.produtoDAO.buscaProduto(idProduto);
-        if (prod == null) {
-            System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
-            return;
-        }
-        System.out.println(prod.getNome() + " #" + prod.getId() + "(" + prod.getCategoria() + ")");
-        System.out.println("R$ " + prod.getPreco());
-        System.out.println(prod.getDescricao());
-        System.out.println("Avaliação: " + prod.getAvaliacao());
-        System.out.println("Anunciante: " + prod.getAnunciante().getNome());
-        if (prod.getDenuncias().size() > 0) {
-            System.out.println("Denúncias:");
-            for (Denuncia denuncia : prod.getDenuncias()) {
-                System.out.println("\t" + denuncia.getMensagem());
-            }
-        }
-    }
-
-    public void verProduto3d(long idProduto) {
-        Produto prod = this.produtoDAO.buscaProduto(idProduto);
-        if (prod == null) {
-            System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
-            return;
-        }
-        Modelo3D mod = prod.getModelo3D();
-        this.camera.verModelo3D(mod);
-    }
-
     public void inserirProduto(String nome, double preco, String descricao, Categoria categoria, Modelo3D modelo3d,
             Anunciante anunciante) {
         Produto prod = new Produto(nome, preco, descricao, categoria, modelo3d, anunciante);
@@ -107,5 +78,15 @@ public class Sistema {
                 System.out.println("\t" + denuncia.getMensagem());
             }
         }
+    }
+
+    public void visualizarProduto3D(int id) {
+        Produto prod = this.produtoDAO.buscaProduto(id);
+        if (prod == null) {
+            System.out.println("Erro: Produto com ID " + id + " não existe.");
+            return;
+        }
+        Modelo3D mod = prod.getModelo3D();
+        this.camera.verModelo3D(mod);
     }
 }
