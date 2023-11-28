@@ -1,36 +1,47 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.security.InvalidParameterException;
 
 public class Cliente extends Usuario {
 
-	private Carrinho carrinho;
+    private Carrinho carrinho;
 
-	private List<Produto> favoritos;
+    private List<Produto> favoritos;
 
-	public Cliente(long id, String nome, String email, String telefone, String senha, String documento,
-			Endereco endereco) {
-		super(id, nome, email, telefone, senha, documento, endereco);
-		this.carrinho = new Carrinho();
-		this.favoritos = new ArrayList<Produto>();
-	}
+    public Cliente(long id, String nome, String email, String telefone, String senha, String documento,
+            Endereco endereco) {
+        super(id, nome, email, telefone, senha, documento, endereco);
+        this.carrinho = new Carrinho();
+        this.favoritos = new ArrayList<Produto>();
+    }
 
-    public void reportarAnuncio (Produto prod, int motivo, String mensagem, String outro) {
+    public void reportarAnuncio(Produto prod, int motivo, String mensagem, String outro) {
         Anunciante anunc;
         Denuncia den;
-        
+
         anunc = prod.getAnunciante();
-        
+
         den = new Denuncia(prod, anunc, motivo);
-        
+
         if (mensagem != null) {
             den.setMensagem(mensagem);
         }
-        
+
         if (outro != null) {
             den.setOutro(outro);
         }
-        
+
         prod.registrarDenuncia(den);
+    }
+
+    public void enviarFeedback(Produto prod, String texto) {
+
+        if (texto != null)
+            throw new InvalidParameterException("Um feedback não pode ter uma mensagem nula.");
+
+        Feedback feedback = new Feedback(prod, texto);
+        Anunciante anunc = prod.getAnunciante();
+        anunc.registrarFeedback(feedback);
     }
 
     public void listarFavoritos() {
@@ -93,20 +104,20 @@ public class Cliente extends Usuario {
         this.favoritos.add(prod);
     }
 
-	public Carrinho getCarrinho() {
-		return this.carrinho;
-	}
+    public Carrinho getCarrinho() {
+        return this.carrinho;
+    }
 
-	// busca carrinho cliente pelo id
-	public Carrinho getCarrinhoId(long id) {
-		if (this.getId() == id) {
-			return this.carrinho;
-		}
-		return null;
-	}
+    // busca carrinho cliente pelo id
+    public Carrinho getCarrinhoId(long id) {
+        if (this.getId() == id) {
+            return this.carrinho;
+        }
+        return null;
+    }
 
-	public List<Produto> getFavoritos() {
-		return this.favoritos;
-	}
+    public List<Produto> getFavoritos() {
+        return this.favoritos;
+    }
 
 }
