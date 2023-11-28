@@ -29,6 +29,7 @@ public class Main {
                 System.out.println("2 - Adicionar ao carrinho");
                 System.out.println("3 - Finalizar compra");
                 System.out.println("4 - Ver minhas compras");
+                System.out.println("5 - Favoritar produto");
                 System.out.println("9 - Sair");
                 opcao = entrada.leInt("Opção");
                 switch (opcao) {
@@ -36,6 +37,7 @@ public class Main {
                         System.out.println("Menu Ver Produto:");
                         System.out.println("1 - Ver todos os produtos");
                         System.out.println("2 - Ver produtos por ID");
+                        System.out.println("3 - Ver produtos favoritos");
                         System.out.println("9 - Voltar");
                         opcao = entrada.leInt("Opção");
                         switch (opcao) {
@@ -44,6 +46,9 @@ public class Main {
                                 break;
                             case 2:
                                 sistema.visualizarProduto(entrada.leLong("ID do produto"));
+                                break;
+                            case 3:
+                                sistema.visualizarFavoritos();
                                 break;
                             case 9:
                                 opcao = 0;
@@ -84,6 +89,10 @@ public class Main {
                                 System.out.println("Opcao invalida.");
                                 break;
                         }
+                        break;
+                    case 5:
+                        idProduto = entrada.leLong("ID do produto");
+                        sistema.favoritarProduto(idProduto);
                         break;
                     case 9:
                         System.out.println("Saindo...");

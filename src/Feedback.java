@@ -4,8 +4,12 @@ public class Feedback {
 
     private final String texto;
     private boolean foiLido = false;
+    private long id;
+
+    static long id_counter = 0;
 
     public Feedback(Produto produto, String texto) {
+        this.id = id_counter++;
         this.produto = produto;
         this.texto = texto;
     }
@@ -17,6 +21,10 @@ public class Feedback {
 
     public boolean foiLido() {
         return this.foiLido;
+    }
+
+    public long getId(){
+        return this.id;
     }
 
 }

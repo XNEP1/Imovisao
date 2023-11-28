@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.List;
 
 public class Sistema {
 
@@ -278,10 +279,134 @@ public class Sistema {
         }
     }
 
-    public void visualizarProdutos() {
+    // public void visualizarProdutos() {
+    //     System.out.println("-------------------");
+    //     System.out.println("Produtos:");
+    //     for (Produto produto : this.produtoDAO.listarProdutos()) {
+    //         System.out.println(produto.getNome() +
+    //                 " #" + produto.getId() +
+    //                 " (" + produto.getCategoria() + ")" +
+    //                 " Anunciante: " + produto.getAnunciante().getNome());
+    //     }
+    // }
+
+    public void visualizarProdutos(){   
+
+        List<Produto> prods = this.produtoDAO.listarProdutos();
+        Entrada entrada = Entrada.getInstance();
+        String substr;
+        int index=0;
+        int start=0;
+        int num=5;
+
+        while(true){
+
+            for (int j=start;j<start+num&&j<prods.size();j++) {
+                Produto prod=prods.get(j);
+                int i;
+                System.out.printf(" ______________________________________________________________________________________ \n");
+                System.out.printf("│ %d - %-50s │ %-25s   │\n",index,prod.getNome(),prod.getCategoria().getNome());
+                System.out.printf("│  R$: %-80.2f│\n",prod.getPreco());
+                System.out.printf("│  Descrição:________________________________________________________________________  │\n","Descrição:");
+                for(i=0;i<prod.getDescricao().length()/80;i++){
+                    substr = prod.getDescricao().substring(i*80, i*80+80);
+                    System.out.printf("│ │ %-80s │ │\n",substr);
+            
+                }
+                substr = prod.getDescricao().substring(i*80, prod.getDescricao().length());
+                System.out.printf("│ │ %-80s │ │\n",substr);
+                System.out.printf("│ │__________________________________________________________________________________│ │\n");
+                System.out.printf("│  Anunciante: %-55s  Avaliação: %-3d │\n",prod.getAnunciante().getNome(),prod.getAvaliacao());
+                System.out.printf("│______________________________________________________________________________________│\n");
+                index++;
+                
+            }
+            System.out.printf("  <%d>Páginas:  ",start/num);
+            for(int k=0;k<=prods.size()/num;k++)
+                System.out.printf("%d ",k);
+            System.out.printf("\n");
+
+            System.out.printf("------------Menu------------\n");
+            System.out.printf(" 1 - Próxima página\n");
+            System.out.printf(" 2 - Mudar página\n");
+            if (this.isLogadoCliente())
+                System.out.printf(" 3 - Favoritar ou desfavoritar produto\n");
+            System.out.printf(" 9 - Voltar\n");
+            int opcao = entrada.leInt("Opção:");
+            switch (opcao) {
+                case 1:
+                    if(start+num<prods.size())
+                        start+=num;
+
+                break;
+                case 2:
+                    start=entrada.leInt("Página:");
+                    System.out.println(start+" "+prods.size());
+                    if(start>prods.size()/num)
+                        start=prods.size()/num;
+                    else if(start<0)
+                        start=0;
+                    
+                    start*=num;
+
+                break;
+                case 3:
+                    if (!this.isLogadoCliente())
+                        break;
+                    
+                    Cliente cliente = (Cliente) this.usuarioLogado;
+                    do{
+                        index =entrada.leInt("Index do produto:");
+                    }while(index<0||index>=num);
+                    
+                    cliente.favoritarProduto(prods.get(start+index));
+                    
+                    System.out.println("Produto " + index + " favoritado!");
+
+                break;
+                case 9:
+                    return;
+                default:
+                
+                break;
+            }
+            index=0;
+
+            
+        }
+
+    }
+
+    public boolean favoritarProduto(long idProduto) {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem favoritar produtos.");
+            return false;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+
+        Produto prod = this.produtoDAO.buscaProduto(idProduto);
+        if (prod == null) {
+            System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
+            return false;
+        }
+
+        cliente.favoritarProduto(prod);
+        System.out.println("Produto favoritado!");
+        return true;
+    }
+
+    public void visualizarFavoritos() {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem visualizar seus favoritos.");
+            return;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+
         System.out.println("-------------------");
-        System.out.println("Produtos:");
-        for (Produto produto : this.produtoDAO.listarProdutos()) {
+        System.out.println("Produtos Favoritos:");
+        for (Produto produto : cliente.getFavoritos()) {
             System.out.println(produto.getNome() +
                     " #" + produto.getId() +
                     " (" + produto.getCategoria() + ")" +
