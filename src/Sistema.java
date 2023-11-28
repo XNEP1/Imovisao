@@ -99,6 +99,11 @@ public class Sistema {
             return;
         }
 
+        if (usuarioLogado.getCarrinho().getItens().size() == 0) {
+            System.out.println("Erro: Você não pode finalizar uma compra com o carrinho vazio.");
+            return;
+        }
+
         long idCompra = this.compraDAO.getIdUnico();
         Compra compra = new Compra(idCompra, usuarioLogado, usuarioLogado.getCarrinho().getItens());
         this.compraDAO.cadastrarCompra(compra);
@@ -149,7 +154,11 @@ public class Sistema {
         String strCategoria = entrada.leString("Categoria");
         Categoria categoria = new Categoria(strCategoria);
 
-        Modelo3D modelo3d = null;
+        String strCaminhoModelo = entrada.leString("Caminho para o modelo 3D");
+        if (strCaminhoModelo.equals("")) {
+            strCaminhoModelo = "modelos/exemplo1.txt";
+        }
+        Modelo3D modelo3d = new Modelo3D(strCaminhoModelo, 1, 1, 1);
         Anunciante anunciante = (Anunciante) this.usuarioLogado;
 
         Produto prod = new Produto(this.produtoDAO.getIdUnico(), preco, nome, descricao, 0, categoria, modelo3d,
@@ -413,7 +422,23 @@ public class Sistema {
         } else {
             cliente.enviarFeedback(prodComprado, texto);
         }
+    }
 
+    public void reportarAnuncio(long idProduto, String texto) {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
+            return;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+
+        Produto prod = this.produtoDAO.buscaProduto(idProduto);
+        if (prod == null) {
+            System.out.println("Produto " + idProduto + " não existe.");
+            return;
+        }
+        cliente.reportarAnuncio(prod, 0, texto, "");
+        System.out.println("Produto reportado com sucesso!");
     }
 
 }
