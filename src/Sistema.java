@@ -54,6 +54,10 @@ public class Sistema {
     }
 
     public boolean garanteLogin() {
+        if (this.usuarioLogado != null) {
+            return true;
+        }
+
         int cont = 1;
         while (true) {
             fazerLogin();
