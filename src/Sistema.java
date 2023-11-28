@@ -35,10 +35,7 @@ public class Sistema {
 
         Entrada entrada = Entrada.getInstance();
 
-        System.out.println("Digite seu id:");
-        long id = entrada.leLong("ID");
-
-        System.out.println("Digite sua senha:");
+        long id = entrada.leLong("ID Usuario");
         String senha = entrada.leString("Senha");
 
         Usuario usuarioPotencial = this.usuarioDAO.buscaUsuario(id);
@@ -140,7 +137,11 @@ public class Sistema {
         // Ler informacoes do produto
         Entrada entrada = Entrada.getInstance();
         String nome = entrada.leString("Nome");
-        double preco = entrada.leDouble("Preço");
+        double preco;
+        do{
+            preco = entrada.leDouble("Preço");
+
+        } while(preco <= 0);
         String descricao = entrada.leString("Descrição");
         String strCategoria = entrada.leString("Categoria");
         Categoria categoria = new Categoria(strCategoria);

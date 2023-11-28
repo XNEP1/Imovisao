@@ -1,9 +1,34 @@
+/*
+  _____                               _                       
+ |_   _|                             (_)                      
+   | |    _ __ ___     ___   __   __  _   ___    __ _    ___  
+   | |   | '_ ` _ \   / _ \  \ \ / / | | / __|  / _` |  / _ \ 
+  _| |_  | | | | | | | (_) |  \ V /  | | \__ \ | (_| | | (_) |
+ |_____| |_| |_| |_|  \___/    \_/   |_| |___/  \__,_|  \___/ 
+
+
+De
+    Bruno Krügel
+    Bruno Dal Pontte
+    Henrique Colini
+    Lucas Araujo
+    Vitor Igami
+    Victor Ribeiro Garcia
+
+ */                                               
+
 public class Main {
     public static void main(String[] args) {
         Entrada entrada = Entrada.getInstance();
         Sistema sistema = new Sistema();
         int opcao;
         long idProduto;
+
+        // Imprime o txt com a logo do app
+        // path: modelos/logo.txt
+        Modelo3D logo = new Modelo3D("modelos/logo.txt", 1, 1, 1);
+        System.out.println(logo.getRenderizacao());
+        
         System.out.println("+====================+");
         System.out.println("Bem-vindo ao Imovisão!");
         System.out.println("+====================+");
