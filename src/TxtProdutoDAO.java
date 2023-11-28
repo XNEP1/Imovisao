@@ -20,7 +20,7 @@ public class TxtProdutoDAO implements ProdutoDAO {
                 30, "Exemplo 3", "Mais um produto", 300,
                 new Categoria("Exemplos"),
                 new Modelo3D("modelos/exemplo3.txt", 1, 1, 1),
-                usuarioDAO.buscaAnunciante(2)));
+                usuarioDAO.buscaAnunciante(0)));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class TxtProdutoDAO implements ProdutoDAO {
 
     @Override
     public Produto buscaProduto(long idProduto) {
-        for (Produto produto : produtos) {
+        for (Produto produto : this.produtos) {
             if (produto.getId() == idProduto) {
                 return produto;
             }
@@ -40,13 +40,33 @@ public class TxtProdutoDAO implements ProdutoDAO {
 
     @Override
     public void cadastrarProduto(Produto produto) {
-        for (Produto p : produtos) {
+        for (Produto p : this.produtos) {
             if (p.getId() == produto.getId()) {
                 System.out.println("Erro: Produto com ID " + produto.getId() + " já existe.");
                 return;
             }
         }
-        produtos.add(produto);
+        this.produtos.add(produto);
+    }
+
+    @Override
+    public void removerProduto(Produto produto) {
+        Produto p = buscaProduto(produto.getId());
+        if (p == null) {
+            System.out.println("Erro: Produto com ID " + produto.getId() + " não existe.");
+        }
+        this.produtos.remove(p);
+    }
+
+    @Override
+    public long getIdUnico() {
+        long id = 0;
+        for (Produto produto : this.produtos) {
+            if (produto.getId() > id) {
+                id = produto.getId();
+            }
+        }
+        return id + 1;
     }
 
 }
