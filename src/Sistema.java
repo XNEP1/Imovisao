@@ -23,10 +23,6 @@ public class Sistema {
         return usuarioLogado;
     }
 
-    public void listarProdutos() {
-
-    }
-
     private void fazerLogin() {
         if (this.usuarioLogado != null) {
             System.out.println("Erro: Já existe um usuário logado.");
@@ -144,9 +140,9 @@ public class Sistema {
         Anunciante anunciante = (Anunciante) this.usuarioLogado;
 
         Produto prod = new Produto(this.produtoDAO.getIdUnico(), preco, nome, descricao, 0, categoria, modelo3d,
-            anunciante);
+                anunciante);
         this.produtoDAO.cadastrarProduto(prod);
-        
+
         // Exibe ID e nome do produto
         System.out.println("-------------------");
         System.out.println("Produto inserido com sucesso!");
@@ -273,4 +269,16 @@ public class Sistema {
             this.camera.verModelo3D(mod);
         }
     }
+
+    public void visualizarProdutos() {
+        System.out.println("-------------------");
+        System.out.println("Produtos:");
+        for (Produto produto : this.produtoDAO.listarProdutos()) {
+            System.out.println(produto.getNome() +
+                " #" + produto.getId() +
+                " (" + produto.getCategoria() + ")" +
+                " Anunciante: " + produto.getAnunciante().getNome());
+        }
+    }
+
 }

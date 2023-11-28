@@ -24,7 +24,7 @@ public class Main {
         if (isCliente) { // Menu do cliente
             System.out.println("Bem-vindo, Cliente " + usuario.getNome() + "!");
             do {
-                System.out.println("Menu:");
+                System.out.println("Menu Cliente:");
                 System.out.println("1 - Ver produto");
                 System.out.println("2 - Adicionar ao carrinho");
                 System.out.println("3 - Finalizar compra");
@@ -32,8 +32,25 @@ public class Main {
                 opcao = entrada.leInt("Opção");
                 switch (opcao) {
                     case 1:
-                        idProduto = entrada.leLong("ID do produto que deseja visualizar");
-                        sistema.visualizarProduto(idProduto);
+                        System.out.println("Menu Ver Produto:");
+                        System.out.println("1 - Ver todos os produtos");
+                        System.out.println("2 - Ver produtos por ID");
+                        System.out.println("9 - Voltar");
+                        opcao = entrada.leInt("Opção");
+                        switch (opcao) {
+                            case 1:
+                                sistema.visualizarProdutos();
+                                break;
+                            case 2:
+                                sistema.visualizarProduto(entrada.leLong("ID do produto"));
+                                break;
+                            case 9:
+                                opcao = 0;
+                                break;
+                            default:
+                                System.out.println("Opcao invalida.");
+                                break;
+                        }
                         break;
                     case 2:
                         idProduto = entrada.leLong("ID do produto");
@@ -55,7 +72,7 @@ public class Main {
         } else { // Menu do anunciante
             System.out.println("Bem-vindo, Anunciante " + usuario.getNome() + "!");
             do {
-                System.out.println("Menu:");
+                System.out.println("Menu Anunciante:");
                 System.out.println("1 - Ver produto");
                 System.out.println("2 - Adicionar produto");
                 System.out.println("3 - Editar produto");
@@ -64,8 +81,25 @@ public class Main {
                 opcao = entrada.leInt("Opção");
                 switch (opcao) {
                     case 1: // Ver produto
-                        idProduto = entrada.leLong("ID do produto que deseja visualizar");
-                        sistema.visualizarProduto(idProduto);
+                        System.out.println("Menu Ver Produto:");
+                        System.out.println("1 - Ver todos os produtos");
+                        System.out.println("2 - Ver produtos por ID");
+                        System.out.println("9 - Voltar");
+                        opcao = entrada.leInt("Opção");
+                        switch (opcao) {
+                            case 1:
+                                sistema.visualizarProdutos();
+                                break;
+                            case 2:
+                                sistema.visualizarProduto(entrada.leLong("ID do produto"));
+                                break;
+                            case 9:
+                                opcao = 0;
+                                break;
+                            default:
+                                System.out.println("Opcao invalida.");
+                                break;
+                        }
                         break;
                     case 2: // Adicionar produto
                         sistema.adicionarProduto();
