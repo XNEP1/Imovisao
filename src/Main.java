@@ -28,6 +28,7 @@ public class Main {
                 System.out.println("1 - Ver produto");
                 System.out.println("2 - Adicionar ao carrinho");
                 System.out.println("3 - Finalizar compra");
+                System.out.println("4 - Ver minhas compras");
                 System.out.println("9 - Sair");
                 opcao = entrada.leInt("Opção");
                 switch (opcao) {
