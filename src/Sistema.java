@@ -146,7 +146,11 @@ public class Sistema {
         String strCategoria = entrada.leString("Categoria");
         Categoria categoria = new Categoria(strCategoria);
 
-        Modelo3D modelo3d = null;
+        String strCaminhoModelo = entrada.leString("Caminho para o modelo 3D");
+        if(strCaminhoModelo.equals("")){
+            strCaminhoModelo = "modelos/exemplo1.txt";
+        }
+        Modelo3D modelo3d = new Modelo3D(strCaminhoModelo, 1, 1, 1);
         Anunciante anunciante = (Anunciante) this.usuarioLogado;
 
         Produto prod = new Produto(this.produtoDAO.getIdUnico(), preco, nome, descricao, 0, categoria, modelo3d,
@@ -211,12 +215,14 @@ public class Sistema {
         }
 
         Modelo3D Modelo3D = prod.getModelo3D();
+        System.out.println("Modelo 3D atual: " + prod.getModelo3D().getCaminho());
         System.out.println("Deseja alterar o modelo 3D?");
         if (entrada.leBoolean("Opção")) {
             System.out.println("Digite o caminho para o novo modelo 3D:");
-            // String caminho = entrada.leString("Caminho");
-            // vai ficar querendo mudar
-            System.out.println("Erro: Não implementado.");
+            String strCaminhoModelo = entrada.leString("Caminho para o modelo 3D");
+            if (!strCaminhoModelo.equals("")) {
+                Modelo3D = new Modelo3D(strCaminhoModelo, 1, 1, 1);
+            }
         }
 
         prod.setNome(Nome);

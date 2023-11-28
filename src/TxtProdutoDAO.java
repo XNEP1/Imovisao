@@ -7,17 +7,17 @@ public class TxtProdutoDAO implements ProdutoDAO {
     public TxtProdutoDAO(UsuarioDAO usuarioDAO) {
         this.produtos = new ArrayList<Produto>();
         cadastrarProduto(new Produto(0,
-                10, "Exemplo 1", "Um produto", 100,
+                10, "Cadeira", "Uma bela cadeira.", 100,
                 new Categoria("Exemplos"),
                 new Modelo3D("modelos/exemplo1.txt", 1, 1, 1),
                 usuarioDAO.buscaAnunciante(0)));
         cadastrarProduto(new Produto(1,
-                20, "Exemplo 2", "Outro produto", 200,
+                20, "Xicara de Cafe", "Uma homenagem ao Java.", 200,
                 new Categoria("Exemplos"),
                 new Modelo3D("modelos/exemplo2.txt", 1, 1, 1),
                 usuarioDAO.buscaAnunciante(1)));
         cadastrarProduto(new Produto(2,
-                30, "Exemplo 3", "Mais um produto", 300,
+                30, "Whiskey Singleton", "Seria uma bebida baseada em um padrao de projeto?", 300,
                 new Categoria("Exemplos"),
                 new Modelo3D("modelos/exemplo3.txt", 1, 1, 1),
                 usuarioDAO.buscaAnunciante(0)));
