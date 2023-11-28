@@ -13,7 +13,7 @@ public class TxtUsuarioDAO implements UsuarioDAO {
                 "Kabum", "kabum@example.com", "(99) 99999-9999", "1234",
                 "00.000.000/0001-00", new Endereco("Rua Exemplo", 1000), 100));
         cadastrarUsuario(new Cliente(2,
-                "João", "joao@email.com", "(99) 99999-9999", "123",
+                "Andrey", "andrey@inf.ufpr.br", "(99) 99999-9999", "123",
                 "000.000.000-00", new Endereco("Rua Lugar", 6000)));
     }
 
@@ -48,6 +48,16 @@ public class TxtUsuarioDAO implements UsuarioDAO {
     public Usuario buscaUsuario(long idUsuario) {
         for (Usuario usuario : usuarios) {
             if (usuario.getId() == idUsuario) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Usuario buscaUsuario(String email){
+        for (Usuario usuario : usuarios) {
+            if (usuario.getEmail().equals(email)) {
                 return usuario;
             }
         }
