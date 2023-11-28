@@ -329,8 +329,9 @@ public class Sistema {
             System.out.printf("------------Menu------------\n");
             System.out.printf(" 1 - Próxima página\n");
             System.out.printf(" 2 - Mudar página\n");
-            System.out.printf(" 3 - Favoritar ou desfavoritar produto\n");
-            System.out.printf(" 4 - Voltar\n");
+            if (this.isLogadoCliente())
+                System.out.printf(" 3 - Favoritar ou desfavoritar produto\n");
+            System.out.printf(" 9 - Voltar\n");
             int opcao = entrada.leInt("Opção:");
             switch (opcao) {
                 case 1:
@@ -350,14 +351,20 @@ public class Sistema {
 
                 break;
                 case 3:
+                    if (!this.isLogadoCliente())
+                        break;
+                    
+                    Cliente cliente = (Cliente) this.usuarioLogado;
                     do{
                         index =entrada.leInt("Index do produto:");
                     }while(index<0||index>=num);
-                    //cliente.favoritarProduto(prods.get(start+index));
-                    System.out.println("Produto "+index+" favoritado!");
+                    
+                    cliente.favoritarProduto(prods.get(start+index));
+                    
+                    System.out.println("Produto " + index + " favoritado!");
 
                 break;
-                case 4:
+                case 9:
                     return;
                 default:
                 
@@ -368,6 +375,43 @@ public class Sistema {
             
         }
 
+    }
+
+    public boolean favoritarProduto(long idProduto) {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem favoritar produtos.");
+            return false;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+
+        Produto prod = this.produtoDAO.buscaProduto(idProduto);
+        if (prod == null) {
+            System.out.println("Erro: Produto com ID " + idProduto + " não existe.");
+            return false;
+        }
+
+        cliente.favoritarProduto(prod);
+        System.out.println("Produto favoritado!");
+        return true;
+    }
+
+    public void visualizarFavoritos() {
+        if (!isLogadoCliente()) {
+            System.out.println("Erro: Apenas clientes podem visualizar seus favoritos.");
+            return;
+        }
+
+        Cliente cliente = (Cliente) this.usuarioLogado;
+
+        System.out.println("-------------------");
+        System.out.println("Produtos Favoritos:");
+        for (Produto produto : cliente.getFavoritos()) {
+            System.out.println(produto.getNome() +
+                    " #" + produto.getId() +
+                    " (" + produto.getCategoria() + ")" +
+                    " Anunciante: " + produto.getAnunciante().getNome());
+        }
     }
 
     public int visualizarCompras() {
