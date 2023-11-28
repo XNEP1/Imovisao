@@ -6,12 +6,14 @@ public class Cliente extends Usuario {
 
     private Carrinho carrinho;
 
+    private List<ItemCompra> comprados;
     private List<Produto> favoritos;
 
     public Cliente(long id, String nome, String email, String telefone, String senha, String documento,
             Endereco endereco) {
         super(id, nome, email, telefone, senha, documento, endereco);
         this.carrinho = new Carrinho();
+        this.comprados = new ArrayList<ItemCompra>();
         this.favoritos = new ArrayList<Produto>();
     }
 
@@ -93,6 +95,14 @@ public class Cliente extends Usuario {
             index = 0;
             start *= 5;
         }
+    }
+
+    public void registrarCompra(ItemCompra item) {
+        this.comprados.add(item);
+    }
+
+    public List<ItemCompra> getItensComprados() {
+        return this.comprados;
     }
 
     public void favoritarProduto(Produto prod) {
