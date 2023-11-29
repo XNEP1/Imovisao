@@ -41,13 +41,11 @@ public class Main {
             return;
         }
         System.out.println();
-        Usuario usuario = sistema.getUsuarioLogado();
+        Cliente cliente = sistema.getClienteLogado();
+        Anunciante anunciante = sistema.getAnuncianteLogado();
 
-        // Define o tipo de usuario
-        boolean isCliente = sistema.isLogadoCliente();
-
-        if (isCliente) { // Menu do cliente
-            System.out.println("Bem-vindo, Cliente " + usuario.getNome() + "!");
+        if (cliente != null) { // Menu do cliente
+            System.out.println("Bem-vindo(a), cliente " + cliente.getNome() + "!");
             do {
                 System.out.println("Menu Cliente:");
                 System.out.println("1 - Ver produto");
@@ -130,8 +128,8 @@ public class Main {
                 }
                 System.out.println("-------------------");
             } while (opcao != 9);
-        } else { // Menu do anunciante
-            System.out.println("Bem-vindo, Anunciante " + usuario.getNome() + "!");
+        } else if (anunciante != null) { // Menu do anunciante
+            System.out.println("Bem-vindo(a), anunciante " + anunciante.getNome() + "!");
             do {
                 System.out.println("Menu Anunciante:");
                 System.out.println("1 - Ver produto");

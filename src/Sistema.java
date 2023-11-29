@@ -19,14 +19,6 @@ public class Sistema {
         this.compraDAO = new TxtCompraDAO(this.usuarioDAO);
     }
 
-    public Usuario getUsuarioLogado() {
-        return usuarioLogado;
-    }
-
-    public void listarProdutos() {
-
-    }
-
     private void fazerLogin() {
         if (this.usuarioLogado != null) {
             System.out.println("Erro: Já existe um usuário logado.");
@@ -62,15 +54,12 @@ public class Sistema {
         if (this.usuarioLogado != null) {
             return true;
         }
-
         int cont = 1;
         while (true) {
             fazerLogin();
-
             if (this.usuarioLogado != null) {
                 return true;
             }
-
             cont++;
             if (cont == 3) {
                 System.out.println("Erro: Você excedeu o número de tentativas de login.");
@@ -80,38 +69,47 @@ public class Sistema {
         return false;
     }
 
-    public boolean isLogadoCliente() {
-        if (this.usuarioLogado instanceof Cliente) {
-            return true;
-        }
-        return false;
+    public Usuario getUsuarioLogado() {
+        return usuarioLogado;
+    }
+
+    public Cliente getClienteLogado() {
+        if (usuarioLogado instanceof Cliente)
+            return (Cliente) usuarioLogado;
+        return null;
+    }
+
+    public Anunciante getAnuncianteLogado() {
+        if (usuarioLogado instanceof Anunciante)
+            return (Anunciante) usuarioLogado;
+        return null;
     }
 
     public void finalizarCompra() {
-        if (!isLogadoCliente()) {
+        Cliente clienteLogado = getClienteLogado();
+        if (clienteLogado == null) {
             System.out.println("Erro: Apenas clientes podem finalizar compras.");
             return;
         }
-
-        Cliente usuarioLogado = (Cliente) this.usuarioLogado;
 
         if (!garanteLogin()) {
             return;
         }
 
-        if (usuarioLogado.getCarrinho().getItens().size() == 0) {
+        if (clienteLogado.getCarrinho().getItens().size() == 0) {
             System.out.println("Erro: Você não pode finalizar uma compra com o carrinho vazio.");
             return;
         }
 
         long idCompra = this.compraDAO.getIdUnico();
-        Compra compra = new Compra(idCompra, usuarioLogado, usuarioLogado.getCarrinho().getItens());
+        Compra compra = new Compra(idCompra, clienteLogado, clienteLogado.getCarrinho().getItens());
         this.compraDAO.cadastrarCompra(compra);
         System.out.println("Compra #" + idCompra + " realizada com sucesso!");
     }
 
     public void adicionarCarrinho(long idProduto, int quant) {
-        if (!isLogadoCliente()) {
+        Cliente clienteLogado = getClienteLogado();
+        if (clienteLogado == null) {
             System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
             return;
         }
@@ -131,14 +129,14 @@ public class Sistema {
             return;
         }
 
-        Cliente cliente = (Cliente) this.usuarioLogado;
-        cliente.getCarrinho().adicionaItemCompra(prod, quant);
+        clienteLogado.getCarrinho().adicionaItemCompra(prod, quant);
         System.out.println("Produto adicionado ao carrinho.");
     }
 
     public void adicionarProduto() {
-        if (isLogadoCliente()) {
-            System.out.println("Erro: Apenas anunciantes podem inserir produtos.");
+        Anunciante anuncianteLogado = getAnuncianteLogado();
+        if (anuncianteLogado == null) {
+            System.out.println("Erro: Apenas anunciantes podem criar produtos.");
             return;
         }
 
@@ -159,10 +157,9 @@ public class Sistema {
             strCaminhoModelo = "modelos/exemplo1.txt";
         }
         Modelo3D modelo3d = new Modelo3D(strCaminhoModelo, 1, 1, 1);
-        Anunciante anunciante = (Anunciante) this.usuarioLogado;
 
         Produto prod = new Produto(this.produtoDAO.getIdUnico(), preco, nome, descricao, 0, categoria, modelo3d,
-                anunciante);
+                anuncianteLogado);
         this.produtoDAO.cadastrarProduto(prod);
 
         // Exibe ID e nome do produto
@@ -173,7 +170,8 @@ public class Sistema {
     }
 
     public void editarProduto(long idProduto) {
-        if (isLogadoCliente()) {
+        Anunciante anuncianteLogado = getAnuncianteLogado();
+        if (anuncianteLogado == null) {
             System.out.println("Erro: Apenas anunciantes podem editar produtos.");
             return;
         }
@@ -186,8 +184,7 @@ public class Sistema {
         }
 
         // Verifica se o produto pertence ao anunciante logado
-        Anunciante anunciante = (Anunciante) this.usuarioLogado;
-        if (prod.getAnunciante().getId() != anunciante.getId()) {
+        if (prod.getAnunciante().getId() != anuncianteLogado.getId()) {
             System.out.println("Erro: Você não pode editar um produto que não é seu.");
             return;
         }
@@ -240,8 +237,9 @@ public class Sistema {
     }
 
     public void removerProduto(long idProduto) {
-        if (isLogadoCliente()) {
-            System.out.println("Erro: Apenas anunciantes podem excluir produtos.");
+        Anunciante anuncianteLogado = getAnuncianteLogado();
+        if (anuncianteLogado == null) {
+            System.out.println("Erro: Apenas anunciantes podem remover produtos.");
             return;
         }
 
@@ -252,8 +250,7 @@ public class Sistema {
         }
 
         // Verifica se o produto pertence ao anunciante logado
-        Anunciante Anunciante = (Anunciante) this.usuarioLogado;
-        if (prod.getAnunciante().getId() != Anunciante.getId()) {
+        if (prod.getAnunciante().getId() != anuncianteLogado.getId()) {
             System.out.println("Erro: Você não pode excluir um produto que não é seu.");
             return;
         }
@@ -280,6 +277,7 @@ public class Sistema {
 
     public void visualizarProdutos() {
 
+        Cliente clienteLogado = getClienteLogado();
         List<Produto> prods = this.produtoDAO.listarProdutos();
         Entrada entrada = Entrada.getInstance();
         int index = 0;
@@ -300,7 +298,7 @@ public class Sistema {
             System.out.printf("------------Menu------------\n");
             System.out.printf(" 1 - Próxima página\n");
             System.out.printf(" 2 - Mudar página\n");
-            if (this.isLogadoCliente())
+            if (clienteLogado != null)
                 System.out.printf(" 3 - Favoritar ou desfavoritar produto\n");
             System.out.printf(" 9 - Voltar\n");
             int opcao = entrada.leInt("Opção");
@@ -323,19 +321,17 @@ public class Sistema {
 
                     break;
                 case 3:
-                    if (!this.isLogadoCliente()) {
+                    if (clienteLogado == null) {
                         System.out.println("Opção inválida.");
                         return;
                     }
-
-                    Cliente cliente = (Cliente) this.usuarioLogado;
                     long idProduto = entrada.leLong("ID do produto");
                     Produto prodFavorito = produtoDAO.buscaProduto(idProduto);
                     if (prodFavorito == null) {
                         System.out.println("Produto " + idProduto + " não existe.");
                         return;
                     } else {
-                        cliente.favoritarProduto(prodFavorito);
+                        clienteLogado.favoritarProduto(prodFavorito);
                         System.out.println("Produto " + index + " favoritado!");
                     }
                     break;
@@ -351,12 +347,11 @@ public class Sistema {
     }
 
     public boolean favoritarProduto(long idProduto) {
-        if (!isLogadoCliente()) {
+        Cliente clienteLogado = getClienteLogado();
+        if (clienteLogado == null) {
             System.out.println("Erro: Apenas clientes podem favoritar produtos.");
             return false;
         }
-
-        Cliente cliente = (Cliente) this.usuarioLogado;
 
         Produto prod = this.produtoDAO.buscaProduto(idProduto);
         if (prod == null) {
@@ -364,51 +359,49 @@ public class Sistema {
             return false;
         }
 
-        cliente.favoritarProduto(prod);
+        clienteLogado.favoritarProduto(prod);
         System.out.println("Produto favoritado!");
         return true;
     }
 
     public void visualizarFavoritos() {
-        if (!isLogadoCliente()) {
+        Cliente clienteLogado = getClienteLogado();
+        if (clienteLogado == null) {
             System.out.println("Erro: Apenas clientes podem visualizar seus favoritos.");
             return;
         }
 
-        Cliente cliente = (Cliente) this.usuarioLogado;
-
         System.out.println("-------------------");
         System.out.println("Produtos Favoritos:");
-        for (Produto produto : cliente.getFavoritos()) {
+        for (Produto produto : clienteLogado.getFavoritos()) {
             System.out.println(produto.getVisualizacao());
         }
     }
 
     public void visualizarCompras() {
-        if (!isLogadoCliente()) {
+        Cliente clienteLogado = getClienteLogado();
+        if (clienteLogado == null) {
             System.out.println("Erro: Apenas clientes podem visualizar suas compras.");
             return;
         }
 
-        Cliente cliente = (Cliente) this.usuarioLogado;
-
         System.out.println("-------------------");
         System.out.println("Compras realizadas:");
-        for (Compra compra : compraDAO.buscaComprasPorCliente(cliente.getId())) {
+        for (Compra compra : compraDAO.buscaComprasPorCliente(clienteLogado.getId())) {
             System.out.println(compra.getVisualizacao());
         }
     }
 
     public void enviarFeedback(long idProduto, String texto) {
-        if (!isLogadoCliente()) {
+        Cliente clienteLogado = getClienteLogado();
+        if (clienteLogado == null) {
             System.out.println("Erro: Apenas clientes podem enviar feedback.");
             return;
         }
 
-        Cliente cliente = (Cliente) this.usuarioLogado;
         Produto prodComprado = null;
 
-        for (Compra compra : compraDAO.buscaComprasPorCliente(cliente.getId())) {
+        for (Compra compra : compraDAO.buscaComprasPorCliente(clienteLogado.getId())) {
             for (ItemCompra item : compra.getItens()) {
                 if (item.getProduto().getId() == idProduto) {
                     prodComprado = item.getProduto();
@@ -420,24 +413,23 @@ public class Sistema {
         if (prodComprado == null) {
             System.out.println("Erro: Você não pode dar feedback para um produto que você nunca comprou.");
         } else {
-            cliente.enviarFeedback(prodComprado, texto);
+            clienteLogado.enviarFeedback(prodComprado, texto);
         }
     }
 
     public void reportarAnuncio(long idProduto, String texto) {
-        if (!isLogadoCliente()) {
+        Cliente clienteLogado = getClienteLogado();
+        if (clienteLogado == null) {
             System.out.println("Erro: Apenas clientes podem adicionar produtos ao carrinho.");
             return;
         }
-
-        Cliente cliente = (Cliente) this.usuarioLogado;
 
         Produto prod = this.produtoDAO.buscaProduto(idProduto);
         if (prod == null) {
             System.out.println("Produto " + idProduto + " não existe.");
             return;
         }
-        cliente.reportarAnuncio(prod, 0, texto, "");
+        clienteLogado.reportarAnuncio(prod, 0, texto, "");
         System.out.println("Produto reportado com sucesso!");
     }
 
